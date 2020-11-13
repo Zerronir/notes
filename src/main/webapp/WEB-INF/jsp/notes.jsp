@@ -19,7 +19,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Hello, user!</title>
+    <title>Notes de ${user.getName()}</title>
 </head>
 <body>
 <header>
@@ -80,11 +80,18 @@
     <a href="/newNote">Crea una nota</a>
 
     <article>
-        <c:if test="${not empty err}">
+        <c:if test="${not empty errD}">
             <div class="alert alert-danger" role="alert">
-                ${err}
+                ${errD}
             </div>
         </c:if>
+
+        <c:if test="${not empty delSucs}">
+            <div class="alert alert-danger" role="alert">
+                    ${delSucs}
+            </div>
+        </c:if>
+
     </article>
 
     <div class="container">

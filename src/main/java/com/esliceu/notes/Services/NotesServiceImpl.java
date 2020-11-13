@@ -28,7 +28,8 @@ public class NotesServiceImpl implements NotesService {
 
     @Override
     public boolean deleteNote(int noteId) {
-        return false;
+        NoteDAO nDAO = new NotesServiceAccess();
+        return nDAO.deleteNote(noteId);
     }
 
     @Override

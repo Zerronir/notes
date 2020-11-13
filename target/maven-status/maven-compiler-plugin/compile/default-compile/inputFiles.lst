@@ -6,6 +6,7 @@ D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\Models\User.jav
 D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\Controllers\NotesController.java
 D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\DAOs\NoteDAO.java
 D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\DAOs\newNoteController.java
+D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\Controllers\DeleteNoteController.java
 D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\Services\UserService.java
 D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\Models\Notes.java
 D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\DAOs\NotesServiceAccess.java

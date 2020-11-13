@@ -88,7 +88,23 @@ public class NotesServiceAccess implements NoteDAO {
 
     @Override
     public boolean deleteNote(int noteId) {
-        return false;
+        try{
+
+            Connection c = Database.getConnection();
+            c.createStatement().execute("PRAGMA foreign_keys = ON");
+
+            assert c != null;
+
+            PreparedStatement ps = c.prepareStatement("DELETE FROM notes WHERE noteId = ?");
+            ps.setInt(1, noteId);
+            ps.execute();
+            ps.close();
+
+
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
