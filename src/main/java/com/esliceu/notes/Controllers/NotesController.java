@@ -4,6 +4,8 @@ import com.esliceu.notes.Models.Notes;
 import com.esliceu.notes.Models.User;
 import com.esliceu.notes.Services.NotesService;
 import com.esliceu.notes.Services.NotesServiceImpl;
+import com.esliceu.notes.Services.UserService;
+import com.esliceu.notes.Services.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @WebServlet(value = "/notes")
@@ -26,10 +29,11 @@ public class NotesController extends HttpServlet {
         if(uLogged != null){
 
             int id = uLogged.getId();
-
+            UserService us = new UserServiceImpl();
             NotesService ns = new NotesServiceImpl();
             List<Notes> notes = ns.getNotes(id);
-
+            List<User> userList = us.getAll(uLogged.getId());
+            req.setAttribute("users", userList);
             req.setAttribute("notes", notes);
             session.setAttribute("user", uLogged);
 
@@ -55,12 +59,13 @@ public class NotesController extends HttpServlet {
 
             if(validateNote(title, content)){
                 NotesService ns = new NotesServiceImpl();
-
+                PrintWriter pw = resp.getWriter();
 
                 Notes n = new Notes(0, uLogged.getId(), title, content, "", "");
 
                 // Si rebem un valor de true, la nota s'ha afegit correctament y redireccionarem a l'usuari a la pàgina de notes
                 if(ns.addNote(n)){
+
                     session.setAttribute("user", uLogged);
                     resp.sendRedirect(req.getContextPath() + "/notes");
 

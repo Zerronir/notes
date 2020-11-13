@@ -6,12 +6,47 @@ import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceAccess implements UserDAO {
     @Override
-    public List<User> getAll() {
-        return null;
+    public List<User> getAll(int userId) {
+        List<User> userList = new ArrayList<>();
+
+        try{
+
+            Connection c = Database.getConnection();
+            c.createStatement().execute("PRAGMA foreign_keys = ON");
+            assert c!=null;
+
+            PreparedStatement ps = c.prepareStatement("SELECT * FROM users WHERE userId != ?");
+            ps.setInt(1, userId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                int gotuserId = rs.getInt("userId");
+                String username = rs.getString("username");
+                String email = rs.getString("email");
+
+                User u = new User(
+                  gotuserId,
+                  username,
+                  email,
+                  ""
+                );
+
+                userList.add(u);
+
+            }
+
+            ps.close();
+
+        }catch (Exception e) {
+            return null;
+        }
+        return userList;
     }
 
     @Override

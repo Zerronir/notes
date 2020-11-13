@@ -71,7 +71,6 @@ public class NotesServiceAccess implements NoteDAO {
             ps.setInt(1, owner);
             ps.setString(2, title);
             ps.setString(3, content);
-            System.out.println("true");
             ps.execute();
             ps.close();
 

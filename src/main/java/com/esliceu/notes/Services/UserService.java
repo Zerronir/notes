@@ -5,7 +5,7 @@ import com.esliceu.notes.Models.User;
 import java.util.List;
 
 public interface UserService {
-    List<User> getAll();
+    List<User> getAll(int userId);
 
     User getFromLogin(String email, String pass);
 

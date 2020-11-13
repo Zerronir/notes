@@ -86,8 +86,14 @@
             </div>
         </c:if>
 
-        <c:if test="${not empty delSucs}">
+        <c:if test="${not empty err}">
             <div class="alert alert-danger" role="alert">
+                    ${err}
+            </div>
+        </c:if>
+
+        <c:if test="${not empty delSucs}">
+            <div class="alert alert-success" role="alert">
                     ${delSucs}
             </div>
         </c:if>
@@ -133,23 +139,6 @@
 
     <c:if test="${empty notes}">
             <p>No tens notes, accedeix al formulari per a crear una</p>
-
-            <form action="/notes" method="post">
-                <div class="form-group">
-                    <label for="title">Títol de la nota</label>
-                    <input type="text" class="form-control" name="title" id="title" placeholder="name@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="content">Contingut de la nota</label>
-                    <textarea class="form-control" name="content" id="content" rows="25"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <button class="btn btn-primary" type="submit">Enregistrar nota</button>
-                </div>
-
-            </form>
-
     </c:if>
 
 </main>

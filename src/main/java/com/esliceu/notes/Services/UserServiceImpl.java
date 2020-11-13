@@ -8,8 +8,9 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
     @Override
-    public List<User> getAll() {
-        return null;
+    public List<User> getAll(int userId) {
+        UserDAO ud = new UserServiceAccess();
+        return ud.getAll(userId);
     }
 
     @Override

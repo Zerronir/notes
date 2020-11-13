@@ -11,8 +11,7 @@ public class NotesServiceImpl implements NotesService {
     @Override
     public List<Notes> getNotes(int userId) {
         NoteDAO nDAO = new NotesServiceAccess();
-        List<Notes> notes = nDAO.getNotes(userId);
-        return notes;
+        return nDAO.getNotes(userId);
     }
 
     @Override

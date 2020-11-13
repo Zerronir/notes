@@ -5,7 +5,7 @@ import com.esliceu.notes.Models.User;
 import java.util.List;
 
 public interface UserDAO {
-    List<User> getAll();
+    List<User> getAll(int userId);
 
     boolean addUser(User u);
 
