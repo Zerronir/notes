@@ -1,0 +1,11 @@
+com\esliceu\notes\Controllers\UserPageController.class
+com\esliceu\notes\Services\UserService.class
+com\esliceu\notes\DAOs\UserDAO.class
+com\esliceu\notes\DAOs\UserServiceAccess.class
+com\esliceu\notes\Controllers\MainPageController.class
+com\esliceu\notes\Models\User.class
+com\esliceu\notes\Controllers\RegisterController.class
+com\esliceu\notes\Models\Notes.class
+com\esliceu\notes\DAOs\Database.class
+com\esliceu\notes\Controllers\LoginController.class
+com\esliceu\notes\Services\UserServiceImpl.class
