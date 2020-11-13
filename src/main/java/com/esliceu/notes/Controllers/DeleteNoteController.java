@@ -20,7 +20,6 @@ public class DeleteNoteController extends HttpServlet {
         HttpSession session = req.getSession();
         User uLogged = (User) session.getAttribute("user");
         int noteId = Integer.parseInt(req.getParameter("noteId"));
-        PrintWriter pw = resp.getWriter();
 
         if(uLogged != null){
             if(noteId > 0) {

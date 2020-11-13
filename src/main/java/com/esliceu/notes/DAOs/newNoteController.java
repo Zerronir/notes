@@ -26,7 +26,5 @@ public class newNoteController extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/login");
         }
 
-
-
     }
 }

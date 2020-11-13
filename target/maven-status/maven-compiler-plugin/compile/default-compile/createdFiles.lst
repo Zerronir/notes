@@ -8,6 +8,7 @@ com\esliceu\notes\Controllers\DeleteNoteController.class
 com\esliceu\notes\DAOs\Database.class
 com\esliceu\notes\Controllers\LoginController.class
 com\esliceu\notes\DAOs\newNoteController.class
+com\esliceu\notes\Controllers\ViewNoteController.class
 com\esliceu\notes\Services\UserServiceImpl.class
 com\esliceu\notes\Controllers\UserPageController.class
 com\esliceu\notes\Services\NotesService.class

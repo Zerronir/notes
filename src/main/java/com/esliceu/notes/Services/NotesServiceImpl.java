@@ -49,6 +49,7 @@ public class NotesServiceImpl implements NotesService {
 
     @Override
     public Notes getNoteFromId(int noteId) {
-        return null;
+        NoteDAO nDAO = new NotesServiceAccess();
+        return nDAO.getNoteFromId(noteId);
     }
 }
