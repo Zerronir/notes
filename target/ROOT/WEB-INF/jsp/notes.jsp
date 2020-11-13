@@ -35,7 +35,7 @@
                         <a class="nav-link" href="/">Inici</a>
                     </li>
                     <c:choose>
-                    <c:when test="${not empty userId}">
+                    <c:when test="${not empty user.getId()}">
                     <li class="nav-item active dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Notes
@@ -75,21 +75,21 @@
 </header>
 
 <main class="container">
-    <h1 class="display-4">Benvingut, ${name}</h1>
+    <h1 class="display-4">Benvingut, ${user.getName()}</h1>
     <p>Aquesta es la teva pàgina de notes</p>
     <a href="/newNote">Crea una nota</a>
 
     <article>
-        <c:if test="${not empty errorDeleting}">
+        <c:if test="${not empty err}">
             <div class="alert alert-danger" role="alert">
-                ${errorDeleting}
+                ${err}
             </div>
         </c:if>
     </article>
 
     <div class="container">
         <div class="d-flex flex-wrap justify-content-between">
-            <c:forEach var="c" items="${notesList}">
+            <c:forEach var="c" items="${notes}">
                 <div class="card mt-3 mb-3" style="width: 25rem;">
                     <div class="card-body">
                         <h5 class="card-title">${c.getTitle()}</h5>
@@ -124,7 +124,7 @@
         </div>
     </div>
 
-    <c:if test="${empty notesList}">
+    <c:if test="${empty notes}">
             <p>No tens notes, accedeix al formulari per a crear una</p>
 
             <form action="/notes" method="post">

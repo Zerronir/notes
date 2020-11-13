@@ -25,6 +25,7 @@ public class UserServiceAccess implements UserDAO {
             String password = u.getPass();
 
             Connection c = Database.getConnection();
+            c.createStatement().execute("PRAGMA foreign_keys = ON");
             assert c!=null;
 
             // Executing query
@@ -65,7 +66,7 @@ public class UserServiceAccess implements UserDAO {
         try{
 
             Connection c = Database.getConnection();
-
+            c.createStatement().execute("PRAGMA foreign_keys = ON");
             assert c != null;
 
             PreparedStatement ps = c.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?");
@@ -86,6 +87,7 @@ public class UserServiceAccess implements UserDAO {
                 return user;
             }
 
+            ps.close();
         }catch (Exception e){
             return null;
         }
