@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface NotesService {
 
-    List<Notes> getNotes(int userId);
+    List<Notes> getNotes(int userId, int pagina, int total);
 
-    boolean addNote(Notes n);
+    boolean addNote(int owner, String title, String content);
 
     boolean updateNote(String title, String content, int noteId);
 
@@ -22,5 +22,7 @@ public interface NotesService {
     void deleteSharedNote(Notes n, User u);
 
     Notes getNoteFromId(int noteId);
+
+    int getRows(int userId);
 
 }

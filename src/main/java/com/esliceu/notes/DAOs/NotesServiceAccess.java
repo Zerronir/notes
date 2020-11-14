@@ -11,7 +11,7 @@ import java.util.List;
 
 public class NotesServiceAccess implements NoteDAO {
     @Override
-    public List<Notes> getNotes(int userId) {
+    public List<Notes> getNotes(int userId, int pagina, int total) {
         List<Notes> notes = new ArrayList<>();
 
         try{
@@ -19,9 +19,11 @@ public class NotesServiceAccess implements NoteDAO {
             Connection c = Database.getConnection();
             c.createStatement().execute("PRAGMA foreign_keys = ON");
             assert c != null;
-
-            PreparedStatement ps = c.prepareStatement("SELECT * FROM notes WHERE noteOwner = ?");
+            int start = pagina * total - total;
+            PreparedStatement ps = c.prepareStatement("SELECT * FROM notes WHERE noteOwner = ? LIMIT ?, ?");
             ps.setInt(1, userId);
+            ps.setInt(2, start);
+            ps.setInt(3, total);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
@@ -57,17 +59,14 @@ public class NotesServiceAccess implements NoteDAO {
     }
 
     @Override
-    public boolean addNote(Notes n) {
+    public boolean addNote(int owner, String title, String content) {
 
         try{
             Connection c = Database.getConnection();
             c.createStatement().execute("PRAGMA foreign_keys = ON");
 
             assert c!=null;
-            int owner = n.getOwner();
-            String title = n.getTitle();
-            String content = n.getContent();
-            PreparedStatement ps = c.prepareStatement("INSERT INTO notes (noteOwner, noteTitle, noteContent, createdAt, updatedAt) VALUES (?, ?, ?, DATETIME('now'), datetime('now'))");
+            PreparedStatement ps = c.prepareStatement("INSERT INTO notes (noteOwner, noteTitle, noteContent, createdAt, updatedAt) VALUES (?, ?, ?, datetime('now'), datetime('now'))");
             ps.setInt(1, owner);
             ps.setString(2, title);
             ps.setString(3, content);
@@ -193,5 +192,27 @@ public class NotesServiceAccess implements NoteDAO {
         }catch (Exception e){
             return null;
         }
+    }
+
+    @Override
+    public int getRows(int userId) {
+        int nRows = 0;
+
+        try{
+
+            Connection c = Database.getConnection();
+            assert c != null;
+
+            PreparedStatement ps = c.prepareStatement("SELECT count(noteId) FROM notes WHERE noteOwner = ?");
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            nRows = rs.getInt(1);
+
+        }catch (Exception e) {
+            e.getCause();
+        }
+
+        return nRows;
     }
 }

@@ -6,6 +6,7 @@ import com.esliceu.notes.Services.NotesService;
 import com.esliceu.notes.Services.NotesServiceImpl;
 import com.esliceu.notes.Services.UserService;
 import com.esliceu.notes.Services.UserServiceImpl;
+import scala.Int;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,10 +29,31 @@ public class NotesController extends HttpServlet {
 
         if(uLogged != null){
 
+            int start = 0;
+            if(req.getParameter("page") != null){
+                start = Integer.parseInt(req.getParameter("page"));
+            } else {
+                start = 1;
+            }
+
+            int total = 10;
+
             int id = uLogged.getId();
             UserService us = new UserServiceImpl();
             NotesService ns = new NotesServiceImpl();
-            List<Notes> notes = ns.getNotes(id);
+            List<Notes> notes = ns.getNotes(id, start, total);
+            int fileres = ns.getRows(id);
+
+            int pagines = fileres / total;
+
+            if(pagines % total > 0){
+                pagines++;
+            }
+
+            req.setAttribute("pagines", pagines);
+            req.setAttribute("pageId", start);
+            req.setAttribute("total", total);
+
             List<User> userList = us.getAll(uLogged.getId());
             req.setAttribute("users", userList);
             req.setAttribute("notes", notes);
@@ -63,8 +85,12 @@ public class NotesController extends HttpServlet {
 
                 Notes n = new Notes(0, uLogged.getId(), title, content, "", "");
 
+                pw.println("note title" + n.getTitle());
+                pw.println("note content" + n.getContent());
+                pw.println("owner" + n.getOwner());
+
                 // Si rebem un valor de true, la nota s'ha afegit correctament y redireccionarem a l'usuari a la pàgina de notes
-                if(ns.addNote(n)){
+                if(ns.addNote(uLogged.getId(), title, content)){
 
                     session.setAttribute("user", uLogged);
                     resp.sendRedirect(req.getContextPath() + "/notes");
@@ -72,7 +98,7 @@ public class NotesController extends HttpServlet {
                 } else {
                     String err = "Hi ha hagut un error al inserir la base de dades, per favor, torna-ho a provar i si persisteix l'error contacta amb un administrador";
                     session.setAttribute("err", err);
-                    resp.sendRedirect(req.getContextPath() + "/notes");
+                    //resp.sendRedirect(req.getContextPath() + "/notes");
                 }
             } else {
                 String err = "Hi ha hagut un error amb el títol o amb el contigut, revisa les longituds";

@@ -78,7 +78,9 @@
     <h1 class="display-4">Benvingut, ${user.getName()}</h1>
     <p>Aquesta es la teva pàgina de notes</p>
     <a href="/newNote">Crea una nota</a>
-
+    <c:if test="${empty notes}">
+        <p>No tens notes, accedeix al formulari per a crear una</p>
+    </c:if>
     <article>
         <c:if test="${not empty errD}">
             <div class="alert alert-danger" role="alert">
@@ -147,11 +149,44 @@
                 </div>
             </c:forEach>
         </div>
+
+        <c:if test="${not empty notes}">
+            <nav aria-label="Paginació de notes" class="d-flex justify-content-center">
+                <ul class="pagination">
+                    <c:if test="${pageId != 1}">
+                        <li class="page-item"><a class="page-link"
+                                                 href="/notes?total=${pagines}&page=${pageId-1}">Previous</a>
+                        </li>
+                    </c:if>
+
+                    <c:forEach begin="1" end="${pagines}" var="i">
+                        <c:choose>
+                            <c:when test="${pageId eq i}">
+                                <li class="page-item active"><a class="page-link">
+                                        ${i} <span class="sr-only">(current)</span></a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item"><a class="page-link"
+                                                         href="/notes?total=${total}&page=${i}">${i}</a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+
+                    <c:if test="${pageId lt pagines}">
+                        <li class="page-item"><a class="page-link"
+                                                 href="ReadCountries?total=${total}&page=${pageId+1}">Next</a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
+        </c:if>
+
+
     </div>
 
-    <c:if test="${empty notes}">
-            <p>No tens notes, accedeix al formulari per a crear una</p>
-    </c:if>
+
 
 </main>
 

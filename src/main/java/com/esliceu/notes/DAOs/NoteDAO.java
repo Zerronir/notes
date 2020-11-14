@@ -6,9 +6,9 @@ import com.esliceu.notes.Models.User;
 import java.util.List;
 
 public interface NoteDAO {
-    List<Notes> getNotes(int userId);
+    List<Notes> getNotes(int userId, int pagina, int total);
 
-    boolean addNote(Notes n);
+    boolean addNote(int owner, String title, String content);
 
     boolean updateNote(String title, String content, int noteId);
 
@@ -21,4 +21,6 @@ public interface NoteDAO {
     void deleteSharedNote(Notes n, User u);
 
     Notes getNoteFromId(int noteId);
+
+    int getRows(int userId);
 }

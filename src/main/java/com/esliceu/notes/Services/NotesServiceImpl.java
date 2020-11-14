@@ -9,15 +9,15 @@ import java.util.List;
 
 public class NotesServiceImpl implements NotesService {
     @Override
-    public List<Notes> getNotes(int userId) {
+    public List<Notes> getNotes(int userId, int pagina, int total) {
         NoteDAO nDAO = new NotesServiceAccess();
-        return nDAO.getNotes(userId);
+        return nDAO.getNotes(userId, pagina, total);
     }
 
     @Override
-    public boolean addNote(Notes n) {
+    public boolean addNote(int owner, String title, String content) {
         NoteDAO nDAO = new NotesServiceAccess();
-        return nDAO.addNote(n);
+        return nDAO.addNote(owner, title, content);
     }
 
     @Override
@@ -52,5 +52,11 @@ public class NotesServiceImpl implements NotesService {
     public Notes getNoteFromId(int noteId) {
         NoteDAO nDAO = new NotesServiceAccess();
         return nDAO.getNoteFromId(noteId);
+    }
+
+    @Override
+    public int getRows(int userId) {
+        NoteDAO nDAO = new NotesServiceAccess();
+        return nDAO.getRows(userId);
     }
 }
