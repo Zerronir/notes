@@ -108,12 +108,57 @@ public class NotesServiceAccess implements NoteDAO {
 
     @Override
     public List<Notes> getSharedWithMe(int userId) {
-        return null;
+        List<Notes> sharedNotes = new ArrayList<>();
+
+        try {
+
+            Connection c = Database.getConnection();
+            assert c!=null;
+
+            PreparedStatement ps = c.prepareStatement("SELECT * FROM notes JOIN noteSharing nS on notes.noteId = nS.noteId WHERE nS.userId = ?");
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+
+                int noteId = rs.getInt("noteId");
+                int noteOwner = rs.getInt("noteOwner");
+                String noteTitle = rs.getString("noteTitle");
+                String noteContent = rs.getString("noteContent");
+                String createdAt = rs.getString("createdAt");
+                String updatedAt = rs.getString("updatedAt");
+
+                Notes note = new Notes(noteId, noteOwner, noteTitle, noteContent, createdAt, updatedAt);
+                sharedNotes.add(note);
+
+
+            }
+
+        }catch (Exception e){
+            return null;
+        }
+
+        return sharedNotes;
     }
 
     @Override
     public boolean shareNote(int noteId, int ownerId, int userId) {
-        return false;
+        try{
+            Connection c = Database.getConnection();
+            c.createStatement().execute("PRAGMA foreign_keys = ON");
+            assert c != null;
+
+            PreparedStatement ps = c.prepareStatement("INSERT INTO noteSharing (noteId, ownerId, userId) VALUES (?, ?, ?)");
+            ps.setInt(1, noteId);
+            ps.setInt(2, ownerId);
+            ps.setInt(3, userId);
+            ps.execute();
+            ps.close();
+
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
     }
 
     @Override

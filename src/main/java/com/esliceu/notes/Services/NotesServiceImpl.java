@@ -33,12 +33,14 @@ public class NotesServiceImpl implements NotesService {
 
     @Override
     public List<Notes> getSharedWithMe(int userId) {
-        return null;
+        NoteDAO nDAO = new NotesServiceAccess();
+        return nDAO.getSharedWithMe(userId);
     }
 
     @Override
     public boolean shareNote(int noteId, int ownerId, int userId) {
-        return false;
+        NoteDAO nDAO = new NotesServiceAccess();
+        return nDAO.shareNote(noteId, ownerId, userId);
     }
 
     @Override

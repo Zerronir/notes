@@ -12,6 +12,7 @@ D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\Services\UserSe
 D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\Models\Notes.java
 D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\DAOs\NotesServiceAccess.java
 D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\Controllers\RegisterController.java
+D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\Controllers\ShareNoteController.java
 D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\DAOs\UserServiceAccess.java
 D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\Controllers\UserPageController.java
 D:\FPGSDAW\Segundo\Servidor\jdbc\src\main\java\com\esliceu\notes\Services\NotesService.java

@@ -92,9 +92,21 @@
             </div>
         </c:if>
 
+        <c:if test="${not empty sharedErr}">
+            <div class="alert alert-danger" role="alert">
+                    ${sharedErr}
+            </div>
+        </c:if>
+
         <c:if test="${not empty delSucs}">
             <div class="alert alert-success" role="alert">
                     ${delSucs}
+            </div>
+        </c:if>
+
+        <c:if test="${not empty sharedOk}">
+            <div class="alert alert-success" role="alert">
+                    ${sharedOk}
             </div>
         </c:if>
 

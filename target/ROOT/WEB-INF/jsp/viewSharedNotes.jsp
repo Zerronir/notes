@@ -35,7 +35,7 @@
                         <a class="nav-link" href="/">Inici</a>
                     </li>
                     <c:choose>
-                    <c:when test="${not empty userId}">
+                    <c:when test="${not empty user.getId()}">
                     <li class="nav-item active dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Notes
@@ -75,7 +75,7 @@
 </header>
 
 <main class="container">
-    <h1 class="display-4">Benvingut, ${name}</h1>
+    <h1 class="display-4">Benvingut, ${user.getName()}</h1>
     <c:choose>
         <c:when test="${not empty shared}">
             <p>Aquí veurás les notes compartides amb tu</p>
@@ -96,6 +96,7 @@
                         <p class="card-text">${c.getContent()}</p>
 
                         <a href="/viewNote?noteId=${c.getNoteId()}" class="btn btn-success">Veure la nota</a>
+                        <a href="/deleteSharedNoteNotOwner?noteId=${c.getNoteId()}" class="btn btn-danger">Eliminar nota</a>
                     </div>
                 </div>
             </c:forEach>
