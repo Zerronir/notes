@@ -32,9 +32,9 @@ public class NotesServiceImpl implements NotesService {
     }
 
     @Override
-    public List<Notes> getSharedWithMe(int userId) {
+    public List<Notes> getSharedWithMe(int userId, int start, int total) {
         NoteDAO nDAO = new NotesServiceAccess();
-        return nDAO.getSharedWithMe(userId);
+        return nDAO.getSharedWithMe(userId, start, total);
     }
 
     @Override
@@ -59,5 +59,11 @@ public class NotesServiceImpl implements NotesService {
     public int getRows(int userId) {
         NoteDAO nDAO = new NotesServiceAccess();
         return nDAO.getRows(userId);
+    }
+
+    @Override
+    public int getSharedRows(int userId) {
+        NoteDAO nDAO = new NotesServiceAccess();
+        return nDAO.getSharedRows(userId);
     }
 }

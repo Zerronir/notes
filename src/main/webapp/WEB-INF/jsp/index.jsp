@@ -19,7 +19,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Inici</title>
 </head>
 <body>
 <header>
@@ -158,6 +158,54 @@
 
             <article>
                 <h4>Les notes compartides amb jo:</h4>
+                <div class="d-flex flex-wrap justify-content-between">
+                    <c:forEach var="c2" items="${shared}">
+                        <div class="card mt-3 mb-3" style="width: 25rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">${c2.getTitle()}</h5>
+                                <p class="card-text">${c2.getContent()}</p>
+
+                                <a href="/viewNote?noteId=${c2.getNoteId()}" class="btn btn-success">Veure la nota</a>
+                                <a href="/deleteSharedNoteNotOwner?noteId=${c2.getNoteId()}" class="btn btn-danger">Eliminar nota</a>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+
+                <c:if test="${not empty shared}">
+                    <nav aria-label="Paginació de notes" class="d-flex justify-content-center">
+                        <ul class="pagination">
+                            <c:if test="${pageId != 1}">
+                                <li class="page-item"><a class="page-link"
+                                                         href="?total=${pagines}&page=${pageId-1}&page2=${page2-1}">Previous</a>
+                                </li>
+                            </c:if>
+
+                            <c:forEach begin="1" end="${pagines2}" var="i2">
+                                <c:choose>
+                                    <c:when test="${page2 eq i2}">
+                                        <li class="page-item active"><a class="page-link">
+                                                ${i2} <span class="sr-only">(current)</span></a>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="page-item"><a class="page-link"
+                                                                 href="?total=${total}&page=${i}&page2=${i2}">${i2}</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+
+                            <c:if test="${page2 lt pagines2}">
+                                <li class="page-item"><a class="page-link"
+                                                         href="?total=${total}&page=${pageId+1}&page2=${page2+1}">Next</a>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </nav>
+                </c:if>
+
+
             </article>
 
         </c:when>

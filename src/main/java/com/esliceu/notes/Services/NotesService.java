@@ -15,7 +15,7 @@ public interface NotesService {
 
     boolean deleteNote(int noteId);
 
-    List<Notes> getSharedWithMe(int userId);
+    List<Notes> getSharedWithMe(int userId, int start, int total);
 
     boolean shareNote(int noteId, int ownerId, int userId);
 
@@ -25,4 +25,5 @@ public interface NotesService {
 
     int getRows(int userId);
 
+    int getSharedRows(int userId);
 }

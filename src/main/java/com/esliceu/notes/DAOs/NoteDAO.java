@@ -14,7 +14,7 @@ public interface NoteDAO {
 
     boolean deleteNote(int noteId);
 
-    List<Notes> getSharedWithMe(int userId);
+    List<Notes> getSharedWithMe(int userId, int start, int total);
 
     boolean shareNote(int noteId, int ownerId, int userId);
 
@@ -23,4 +23,6 @@ public interface NoteDAO {
     Notes getNoteFromId(int noteId);
 
     int getRows(int userId);
+
+    int getSharedRows(int userId);
 }

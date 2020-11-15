@@ -110,7 +110,7 @@ public class NotesServiceAccess implements NoteDAO {
     }
 
     @Override
-    public List<Notes> getSharedWithMe(int userId) {
+    public List<Notes> getSharedWithMe(int userId, int start, int total) {
         List<Notes> sharedNotes = new ArrayList<>();
 
         try {
@@ -118,7 +118,7 @@ public class NotesServiceAccess implements NoteDAO {
             Connection c = Database.getConnection();
             assert c!=null;
 
-            PreparedStatement ps = c.prepareStatement("SELECT * FROM notes JOIN noteSharing nS on notes.noteId = nS.noteId WHERE nS.userId = ?");
+            PreparedStatement ps = c.prepareStatement("SELECT * FROM notes JOIN noteSharing nS on notes.noteId = nS.noteId WHERE nS.userId = ? LIMIT ?,?");
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
 
@@ -224,6 +224,29 @@ public class NotesServiceAccess implements NoteDAO {
 
             PreparedStatement ps = c.prepareStatement("SELECT count(noteId) FROM notes WHERE noteOwner = ?");
             ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            nRows = rs.getInt(1);
+
+        }catch (Exception e) {
+            e.getCause();
+        }
+
+        return nRows;
+    }
+
+    @Override
+    public int getSharedRows(int userId) {
+        int nRows = 0;
+
+        try{
+
+            Connection c = Database.getConnection();
+            assert c != null;
+
+            PreparedStatement ps = c.prepareStatement("SELECT count(noteId) FROM noteSharing WHERE userId = ? AND ownerId != ?");
+            ps.setInt(1, userId);
+            ps.setInt(2, userId);
             ResultSet rs = ps.executeQuery();
 
             nRows = rs.getInt(1);

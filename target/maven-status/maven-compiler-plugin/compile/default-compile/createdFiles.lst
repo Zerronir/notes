@@ -8,7 +8,6 @@ com\esliceu\notes\Controllers\DeleteNoteController.class
 com\esliceu\notes\DAOs\Database.class
 com\esliceu\notes\Controllers\LoginController.class
 com\esliceu\notes\Controllers\ShareNoteController.class
-com\esliceu\notes\DAOs\newNoteController.class
 com\esliceu\notes\Controllers\ViewNoteController.class
 com\esliceu\notes\Services\UserServiceImpl.class
 com\esliceu\notes\Controllers\DeleteSharedWithMe.class
@@ -21,3 +20,4 @@ com\esliceu\notes\Controllers\ViewSharedNotes.class
 com\esliceu\notes\DAOs\NotesServiceAccess.class
 com\esliceu\notes\DAOs\NoteDAO.class
 com\esliceu\notes\Controllers\LogoutController.class
+com\esliceu\notes\Controllers\newNoteController.class

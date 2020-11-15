@@ -25,7 +25,16 @@ public class ViewSharedNotes extends HttpServlet {
 
         if(uLogged != null){
             NotesService ns = new NotesServiceImpl();
-            List<Notes> notesList = ns.getSharedWithMe(uLogged.getId());
+            int start = 0;
+            if(req.getParameter("page") != null){
+                start = Integer.parseInt(req.getParameter("page"));
+            } else {
+                start = 1;
+            }
+
+            int total = 10;
+
+            List<Notes> notesList = ns.getSharedWithMe(uLogged.getId(),start, total);
             req.setAttribute("shared", notesList);
             session.setAttribute("user", uLogged);
 

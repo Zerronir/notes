@@ -37,26 +37,43 @@ public class MainPageController extends HttpServlet {
                 start = 1;
             }
 
-            int total = 5;
+            int start2 = 0;
+            if(req.getParameter("page") != null){
+                start2 = Integer.parseInt(req.getParameter("page2"));
+            } else {
+                start2 = 1;
+            }
+
+            int total = 4;
 
             UserService us = new UserServiceImpl();
             NotesService ns = new NotesServiceImpl();
             List<Notes> notes = ns.getNotes(uLogged.getId(), start, total);
+            List<Notes> sharedNotes = ns.getSharedWithMe(uLogged.getId(), start2, total);
             int fileres = ns.getRows(uLogged.getId());
+            int sharedRows = ns.getSharedRows(uLogged.getId());
 
             int pagines = fileres / total;
+            int pagines2 = sharedRows / total;
+
+            if(pagines2 % total > 0){
+                pagines2++;
+            }
 
             if(pagines % total > 0){
                 pagines++;
             }
 
             req.setAttribute("pagines", pagines);
+            req.setAttribute("pagines2", pagines2);
             req.setAttribute("pageId", start);
+            req.setAttribute("sharedId", start2);
             req.setAttribute("total", total);
 
             List<User> userList = us.getAll(uLogged.getId());
             req.setAttribute("users", userList);
             req.setAttribute("notes", notes);
+            req.setAttribute("shared", sharedNotes);
             session.setAttribute("user", uLogged);
 
             dispatcher.forward(req, resp);
