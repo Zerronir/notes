@@ -110,16 +110,18 @@ public class NotesServiceAccess implements NoteDAO {
     }
 
     @Override
-    public List<Notes> getSharedWithMe(int userId, int start, int total) {
+    public List<Notes> getSharedWithMe(int userId, int pagina, int total) {
         List<Notes> sharedNotes = new ArrayList<>();
 
         try {
 
             Connection c = Database.getConnection();
             assert c!=null;
-
+            int start = pagina * total - total;
             PreparedStatement ps = c.prepareStatement("SELECT * FROM notes JOIN noteSharing nS on notes.noteId = nS.noteId WHERE nS.userId = ? LIMIT ?,?");
             ps.setInt(1, userId);
+            ps.setInt(2, start);
+            ps.setInt(3, total);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
