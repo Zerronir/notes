@@ -37,6 +37,7 @@ public class ViewNoteController extends HttpServlet {
                 Notes note = ns.getNoteFromId(noteId);
 
                 MutableDataSet options = new MutableDataSet();
+                options.set(HtmlRenderer.SOFT_BREAK, "<br /> \n");
                 Parser parser = Parser.builder(options).build();
                 HtmlRenderer renderer = HtmlRenderer.builder(options).build();
                 Node doc = parser.parse(note.getContent());
