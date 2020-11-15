@@ -33,14 +33,14 @@ public class ShareNoteController extends HttpServlet {
                 pw.println("ownerId: " + uLogged.getId());
                 pw.println("userId: " + userId);
                 session.setAttribute("sharedOk", "La nota s'ha compartit correctament");
-                //resp.sendRedirect(req.getContextPath() + "/notes");
+                resp.sendRedirect(req.getContextPath() + "/notes");
             } else {
                 pw.println("WITH ERRORS:");
                 pw.println("noteId: " + noteId);
                 pw.println("ownerId: " + uLogged.getId());
                 pw.println("userId: " + userId);
                 session.setAttribute("sharedErr", "La nota no s'ha compartit");
-                //resp.sendRedirect(req.getContextPath() + "/notes");
+                resp.sendRedirect(req.getContextPath() + "/notes");
             }
 
 

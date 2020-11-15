@@ -38,7 +38,7 @@ public class MainPageController extends HttpServlet {
             }
 
             int start2 = 0;
-            if(req.getParameter("page") != null){
+            if(req.getParameter("page2") != null){
                 start2 = Integer.parseInt(req.getParameter("page2"));
             } else {
                 start2 = 1;
@@ -81,7 +81,7 @@ public class MainPageController extends HttpServlet {
 
         } else {
 
-            resp.sendRedirect(req.getContextPath() + "/login");
+            dispatcher.forward(req, resp);
 
         }
 

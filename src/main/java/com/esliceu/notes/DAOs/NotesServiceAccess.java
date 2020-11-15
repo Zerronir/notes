@@ -169,7 +169,6 @@ public class NotesServiceAccess implements NoteDAO {
 
         try {
             Connection c = Database.getConnection();
-            c.createStatement().execute("PRAGMA foreign_keys = ON");
             assert c!=null;
 
             PreparedStatement ps = c.prepareStatement("DELETE FROM noteSharing WHERE noteId = ? AND userId = ?");
