@@ -44,8 +44,9 @@ public class NotesServiceImpl implements NotesService {
     }
 
     @Override
-    public void deleteSharedNote(Notes n, User u) {
-
+    public boolean deleteSharedNote(int noteId, int userId) {
+        NoteDAO nDAO = new NotesServiceAccess();
+        return nDAO.deleteSharedNote(noteId, userId);
     }
 
     @Override

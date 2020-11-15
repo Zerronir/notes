@@ -98,7 +98,7 @@ public class NotesController extends HttpServlet {
                 } else {
                     String err = "Hi ha hagut un error al inserir la base de dades, per favor, torna-ho a provar i si persisteix l'error contacta amb un administrador";
                     session.setAttribute("err", err);
-                    //resp.sendRedirect(req.getContextPath() + "/notes");
+                    resp.sendRedirect(req.getContextPath() + "/notes");
                 }
             } else {
                 String err = "Hi ha hagut un error amb el títol o amb el contigut, revisa les longituds";

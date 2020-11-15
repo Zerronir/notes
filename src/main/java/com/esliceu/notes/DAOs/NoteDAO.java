@@ -18,7 +18,7 @@ public interface NoteDAO {
 
     boolean shareNote(int noteId, int ownerId, int userId);
 
-    void deleteSharedNote(Notes n, User u);
+    boolean deleteSharedNote(int noteId, int userId);
 
     Notes getNoteFromId(int noteId);
 

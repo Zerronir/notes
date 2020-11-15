@@ -35,7 +35,7 @@
                         <a class="nav-link" href="/">Inici </a>
                     </li>
                     <c:choose>
-                    <c:when test="${not empty userId}">
+                    <c:when test="${not empty user.getId()}">
                     <li class="nav-item active dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Notes
@@ -76,16 +76,84 @@
 
 <main class="container">
     <c:choose>
-        <c:when test="${not empty userId}">
+        <c:when test="${not empty user.getId()}">
 
-            <h1 class="display-4">Hola, ${name}</h1>
+            <h1 class="display-4">Hola, ${user.getName()}</h1>
 
             <p>Benvingut, aquí pots consultar directament les teves notes personals, compartides o veure el llistat de persones que tenen una sessió iniciada.</p>
 
+            <article>
+                <h4>Les meves notes:</h4>
 
-            <c:forEach var="u" items="${users}">
-                <p>${u.name}</p>
-            </c:forEach>
+                <div class="d-flex flex-wrap justify-content-between">
+                    <c:forEach var="c" items="${notes}">
+                        <div class="card mt-3 mb-3" style="width: 25rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">${c.getTitle()}</h5>
+                                <p class="card-text">${c.getContent()}</p>
+
+                                <a href="/editNote?noteId=${c.getNoteId()}" class="btn btn-primary">Edita la nota</a>
+
+                                <a href="/viewNote?noteId=${c.getNoteId()}" class="btn btn-success">Veure la nota</a>
+
+                                <a href="/deleteNote?noteId=${c.getNoteId()}" class="btn btn-danger">Elimina la nota</a>
+                            </div>
+                            <div class="card-footer">
+                                <form action="/shareNote" method="post">
+                                    <input type="hidden" value="${c.getNoteId()}" name="noteId">
+                                    <input type="hidden" value="${c.getOwner()}" name="ownerId">
+
+                                    <select name="usersList" id="usersList">
+                                        <option value="" selected>-- Selecciona un usuari --</option>
+
+                                        <c:forEach var="us" items="${users}">
+                                            <option value="${us.getId()}">${us.getEmail()}</option>
+                                        </c:forEach>
+
+                                    </select>
+
+                                    <button type="submit">Comparteix la nota</button>
+
+                                </form>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+
+
+                <c:if test="${not empty notes}">
+                    <nav aria-label="Paginació de notes" class="d-flex justify-content-center">
+                        <ul class="pagination">
+                            <c:if test="${pageId != 1}">
+                                <li class="page-item"><a class="page-link"
+                                                         href="?total=${pagines}&page=${pageId-1}">Previous</a>
+                                </li>
+                            </c:if>
+
+                            <c:forEach begin="1" end="${pagines}" var="i">
+                                <c:choose>
+                                    <c:when test="${pageId eq i}">
+                                        <li class="page-item active"><a class="page-link">
+                                                ${i} <span class="sr-only">(current)</span></a>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="page-item"><a class="page-link"
+                                                                 href="?total=${total}&page=${i}">${i}</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+
+                            <c:if test="${pageId lt pagines}">
+                                <li class="page-item"><a class="page-link"
+                                                         href="?total=${total}&page=${pageId+1}">Next</a>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </nav>
+                </c:if>
+            </article>
 
 
         </c:when>

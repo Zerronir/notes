@@ -176,7 +176,7 @@
 
                     <c:if test="${pageId lt pagines}">
                         <li class="page-item"><a class="page-link"
-                                                 href="ReadCountries?total=${total}&page=${pageId+1}">Next</a>
+                                                 href="notes?total=${total}&page=${pageId+1}">Next</a>
                         </li>
                     </c:if>
                 </ul>

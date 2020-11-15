@@ -98,6 +98,10 @@ public class NotesServiceAccess implements NoteDAO {
             ps.execute();
             ps.close();
 
+            PreparedStatement ps2 = c.prepareStatement("DELETE FROM noteSharing WHERE noteId = ?");
+            ps2.setInt(1, noteId);
+            ps2.execute();
+            ps2.close();
 
             return true;
         }catch (Exception e) {
@@ -161,8 +165,23 @@ public class NotesServiceAccess implements NoteDAO {
     }
 
     @Override
-    public void deleteSharedNote(Notes n, User u) {
+    public boolean deleteSharedNote(int noteId, int userId) {
 
+        try {
+            Connection c = Database.getConnection();
+            c.createStatement().execute("PRAGMA foreign_keys = ON");
+            assert c!=null;
+
+            PreparedStatement ps = c.prepareStatement("DELETE FROM noteSharing WHERE noteId = ? AND userId = ?");
+            ps.setInt(1, noteId);
+            ps.setInt(2, userId);
+            ps.execute();
+            ps.close();
+
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override

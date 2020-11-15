@@ -87,6 +87,10 @@
 
     </c:choose>
 
+    <c:if test="${not empty errDS}">
+        ${errDS}
+    </c:if>
+
     <div class="container">
         <div class="d-flex flex-wrap justify-content-between">
             <c:forEach var="c" items="${shared}">
