@@ -40,6 +40,7 @@ public class DeleteNoteController extends HttpServlet {
             }
         } else {
             resp.sendRedirect(req.getContextPath() + "/login");
+            session.invalidate();
         }
 
 

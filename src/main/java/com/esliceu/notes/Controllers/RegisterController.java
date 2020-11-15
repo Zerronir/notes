@@ -28,7 +28,16 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/jsp/register.jsp");
-        dispatcher.forward(req, resp);
+        HttpSession session = req.getSession();
+        User uLogged = (User) session.getAttribute("user");
+
+        if(uLogged != null){
+            resp.sendRedirect(req.getContextPath() + "/user");
+        } else {
+            dispatcher.forward(req, resp);
+            session.invalidate();
+        }
+
     }
 
     @Override

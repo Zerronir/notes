@@ -4,6 +4,10 @@ import com.esliceu.notes.Models.Notes;
 import com.esliceu.notes.Models.User;
 import com.esliceu.notes.Services.NotesService;
 import com.esliceu.notes.Services.NotesServiceImpl;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.util.data.MutableDataSet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,7 +36,14 @@ public class ViewNoteController extends HttpServlet {
                 NotesService ns = new NotesServiceImpl();
                 Notes note = ns.getNoteFromId(noteId);
 
+                MutableDataSet options = new MutableDataSet();
+                Parser parser = Parser.builder(options).build();
+                HtmlRenderer renderer = HtmlRenderer.builder(options).build();
+                Node doc = parser.parse(note.getContent());
+                String html = renderer.render(doc);
+
                 req.setAttribute("note", note);
+                req.setAttribute("content", html);
                 dispatcher.forward(req, resp);
 
             } else {
@@ -42,6 +53,7 @@ public class ViewNoteController extends HttpServlet {
 
         } else {
             resp.sendRedirect(req.getContextPath() + "/login");
+            session.invalidate();
         }
 
 

@@ -42,6 +42,7 @@ public class ViewSharedNotes extends HttpServlet {
 
         } else {
             resp.sendRedirect(req.getContextPath() + "/login");
+            session.invalidate();
         }
 
     }

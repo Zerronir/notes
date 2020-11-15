@@ -6,6 +6,10 @@ import com.esliceu.notes.Services.NotesService;
 import com.esliceu.notes.Services.NotesServiceImpl;
 import com.esliceu.notes.Services.UserService;
 import com.esliceu.notes.Services.UserServiceImpl;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.util.data.MutableDataSet;
 import scala.Int;
 
 import javax.servlet.RequestDispatcher;
@@ -85,13 +89,13 @@ public class NotesController extends HttpServlet {
 
                 Notes n = new Notes(0, uLogged.getId(), title, content, "", "");
 
+
                 pw.println("note title" + n.getTitle());
                 pw.println("note content" + n.getContent());
                 pw.println("owner" + n.getOwner());
 
                 // Si rebem un valor de true, la nota s'ha afegit correctament y redireccionarem a l'usuari a la pàgina de notes
                 if(ns.addNote(uLogged.getId(), title, content)){
-
                     session.setAttribute("user", uLogged);
                     resp.sendRedirect(req.getContextPath() + "/notes");
 
@@ -109,6 +113,7 @@ public class NotesController extends HttpServlet {
 
         } else {
             resp.sendRedirect(req.getContextPath() + "/login");
+            session.invalidate();
         }
 
     }

@@ -24,6 +24,7 @@ public class UserPageController extends HttpServlet {
             dispatcher.forward(req, resp);
         } else {
             resp.sendRedirect(req.getContextPath() + "/login");
+            session.invalidate();
         }
 
     }

@@ -26,6 +26,7 @@ public class LoginController extends HttpServlet {
         User u = (User) session.getAttribute("user");
 
         if(u != null){
+            session.invalidate();
             resp.sendRedirect(req.getContextPath() + "/");
         } else {
 

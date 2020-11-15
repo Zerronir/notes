@@ -82,6 +82,7 @@ public class MainPageController extends HttpServlet {
         } else {
 
             dispatcher.forward(req, resp);
+            session.invalidate();
 
         }
 

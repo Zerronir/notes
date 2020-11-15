@@ -86,7 +86,7 @@
         </article>
     </article>
 
-    <p>${note.getContent()}</p>
+    ${content}
 
 </main>
 
