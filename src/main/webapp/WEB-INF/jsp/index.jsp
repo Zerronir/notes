@@ -156,6 +156,10 @@
             </article>
 
 
+            <article>
+                <h4>Les notes compartides amb jo:</h4>
+            </article>
+
         </c:when>
 
         <c:otherwise>
