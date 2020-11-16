@@ -143,6 +143,8 @@ public class NotesServiceAccess implements NoteDAO {
             ps2.execute();
             ps2.close();
 
+            c.close();
+
             return true;
         }catch (Exception e) {
             return false;
@@ -179,6 +181,9 @@ public class NotesServiceAccess implements NoteDAO {
 
             }
 
+            ps.close();
+            c.close();
+
         }catch (Exception e){
             return null;
         }
@@ -199,6 +204,7 @@ public class NotesServiceAccess implements NoteDAO {
             ps.setInt(3, userId);
             ps.execute();
             ps.close();
+            c.close();
 
             return true;
         }catch (Exception e) {
@@ -218,6 +224,7 @@ public class NotesServiceAccess implements NoteDAO {
             ps.setInt(2, userId);
             ps.execute();
             ps.close();
+            c.close();
 
             return true;
         }catch (Exception e){
@@ -246,6 +253,7 @@ public class NotesServiceAccess implements NoteDAO {
             note.setUpdatedAt(rs.getString("updatedAt"));
 
             ps.close();
+            c.close();
 
             return note;
 
@@ -269,6 +277,9 @@ public class NotesServiceAccess implements NoteDAO {
 
             nRows = rs.getInt(1);
 
+            ps.close();
+            c.close();
+
         }catch (Exception e) {
             e.getCause();
         }
@@ -291,6 +302,8 @@ public class NotesServiceAccess implements NoteDAO {
             ResultSet rs = ps.executeQuery();
 
             nRows = rs.getInt(1);
+            ps.close();
+            c.close();
 
         }catch (Exception e) {
             e.getCause();
