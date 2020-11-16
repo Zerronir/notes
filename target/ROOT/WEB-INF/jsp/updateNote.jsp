@@ -35,7 +35,7 @@
                         <a class="nav-link" href="/">Inici</a>
                     </li>
                     <c:choose>
-                    <c:when test="${not empty userId}">
+                    <c:when test="${not empty user.getId()}">
                     <li class="nav-item active dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Notes

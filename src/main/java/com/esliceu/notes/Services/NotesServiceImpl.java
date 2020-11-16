@@ -22,7 +22,8 @@ public class NotesServiceImpl implements NotesService {
 
     @Override
     public boolean updateNote(String title, String content, int noteId) {
-        return false;
+        NoteDAO nDAO = new NotesServiceAccess();
+        return nDAO.updateNote(title, content, noteId);
     }
 
     @Override

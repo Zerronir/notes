@@ -81,6 +81,17 @@
             <h1 class="display-1 text-center">Registra't</h1>
             <small class="text-center">Es gratis</small>
         </article>
+
+        <article>
+            <article class="col-12 col-md-8">
+                <c:if test="${not empty err}">
+                    <div class="alert alert-danger" role="alert">
+                            ${err}
+                    </div>
+                </c:if>
+            </article>
+        </article>
+
     </article>
 
     <article class="d-flex justify-content-center mt-5">

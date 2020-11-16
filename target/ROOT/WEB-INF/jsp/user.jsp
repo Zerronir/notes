@@ -76,6 +76,15 @@
 
 <main class="container">
     <h1 class="display-4">Benvingut, ${user.getName()}</h1>
+
+    <article>
+
+    </article>
+
+    <article>
+
+    </article>
+
 </main>
 
 <!-- Optional JavaScript -->

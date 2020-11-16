@@ -39,4 +39,10 @@ public class UserServiceImpl implements UserService {
     public void update(User u) {
 
     }
+
+    @Override
+    public boolean checkMail(String email) {
+        UserDAO ud = new UserServiceAccess();
+        return ud.checkMail(email);
+    }
 }

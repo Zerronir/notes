@@ -16,4 +16,6 @@ public interface UserDAO {
     int getUserId(String name);
 
     User getFromLogin(String email, String pass);
+
+    boolean checkMail(String email);
 }

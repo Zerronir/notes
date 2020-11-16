@@ -16,4 +16,6 @@ public interface UserService {
     void deleteUser(User u);
 
     void update(User u);
+
+    boolean checkMail(String email);
 }

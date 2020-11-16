@@ -81,7 +81,47 @@ public class NotesServiceAccess implements NoteDAO {
 
     @Override
     public boolean updateNote(String title, String content, int noteId) {
-        return false;
+        try{
+
+            Connection c = Database.getConnection();
+            assert c!=null;
+
+            Notes n = getNoteFromId(noteId);
+
+            if(!n.getTitle().equals(title) && !n.getContent().equals(content)) {
+
+                PreparedStatement ps = c.prepareStatement("UPDATE notes SET noteTitle = ? AND noteContent = ? WHERE noteId = ?");
+                ps.setString(1, title);
+                ps.setString(2, content);
+                ps.setInt(3, noteId);
+                ps.executeUpdate();
+                ps.close();
+                return true;
+
+            } else if (n.getTitle().equals(title) && !n.getContent().equals(content)) {
+
+                PreparedStatement ps = c.prepareStatement("UPDATE notes SET noteContent = ? WHERE noteId = ?");
+                ps.setString(1, content);
+                ps.setInt(2, noteId);
+                ps.executeUpdate();
+                ps.close();
+                return true;
+
+            } else if (!n.getTitle().equals(title) && n.getContent().equals(content)) {
+
+                PreparedStatement ps = c.prepareStatement("UPDATE notes SET noteTitle = ?WHERE noteId = ?");
+                ps.setString(1, title);
+                ps.setInt(2, noteId);
+                ps.executeUpdate();
+                ps.close();
+                return true;
+
+            } else {
+                return true;
+            }
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override

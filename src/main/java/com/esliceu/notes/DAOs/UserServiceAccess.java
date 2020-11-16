@@ -129,4 +129,29 @@ public class UserServiceAccess implements UserDAO {
 
         return null;
     }
+
+    @Override
+    public boolean checkMail(String email) {
+
+        try{
+
+            Connection c = Database.getConnection();
+            assert c!=null;
+
+            PreparedStatement ps = c.prepareStatement("SELECT email FROM users WHERE email = ?");
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.getString("email") != null){
+                return true;
+            } else {
+                return false;
+            }
+
+        }catch (Exception e){
+            return true;
+        }
+
+
+    }
 }

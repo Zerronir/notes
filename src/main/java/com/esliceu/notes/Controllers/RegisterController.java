@@ -59,12 +59,18 @@ public class RegisterController extends HttpServlet {
                     User u = new User(0, username, email, hashed);
                     UserService us = new UserServiceImpl();
 
-                    if(us.addUser(u)){
+                    if(us.checkMail(email) != true){
+                        if(us.addUser(u)){
 
-                        resp.sendRedirect(req.getContextPath() + "/login");
+                            resp.sendRedirect(req.getContextPath() + "/login");
 
-                    }else{
-                        pw.println("error");
+                        }else{
+                            pw.println("error");
+                        }
+                    } else {
+                        String err = "Aquest email ya està registrat, prova-ho amb un altre";
+                        req.setAttribute("err", err);
+                        resp.sendRedirect(req.getContextPath() + "/register");
                     }
 
                 }

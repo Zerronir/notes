@@ -142,7 +142,7 @@
 
                             </select>
 
-                            <button type="submit">Comparteix la nota</button>
+                            <button type="submit" class="btn btn-warning">Comparteix la nota</button>
                             
                         </form>
                     </div>
