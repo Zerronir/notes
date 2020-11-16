@@ -138,11 +138,6 @@ public class NotesServiceAccess implements NoteDAO {
             ps.execute();
             ps.close();
 
-            PreparedStatement ps2 = c.prepareStatement("DELETE FROM noteSharing WHERE noteId = ?");
-            ps2.setInt(1, noteId);
-            ps2.execute();
-            ps2.close();
-
             c.close();
 
             return true;
