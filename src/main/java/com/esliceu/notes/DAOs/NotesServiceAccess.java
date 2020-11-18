@@ -15,7 +15,7 @@ public class NotesServiceAccess implements NoteDAO {
         try{
 
             Connection c = Database.getConnection();
-            c.createStatement().execute("PRAGMA foreign_keys = ON");
+
             assert c != null;
             int start = pagina * total - total;
             PreparedStatement ps = c.prepareStatement("SELECT * FROM notes WHERE noteOwner = ? LIMIT ?, ?");
@@ -61,7 +61,6 @@ public class NotesServiceAccess implements NoteDAO {
 
         try{
             Connection c = Database.getConnection();
-            c.createStatement().execute("PRAGMA foreign_keys = ON");
 
             assert c!=null;
             PreparedStatement ps = c.prepareStatement("INSERT INTO notes (noteOwner, noteTitle, noteContent, createdAt, updatedAt) VALUES (?, ?, ?, datetime('now'), datetime('now'))");
@@ -159,7 +158,6 @@ public class NotesServiceAccess implements NoteDAO {
     public boolean shareNote(int noteId, int ownerId, int userId) {
         try{
             Connection c = Database.getConnection();
-            c.createStatement().execute("PRAGMA foreign_keys = ON");
             assert c != null;
 
             PreparedStatement ps = c.prepareStatement("INSERT INTO noteSharing (noteId, ownerId, userId) VALUES (?, ?, ?)");
@@ -196,23 +194,21 @@ public class NotesServiceAccess implements NoteDAO {
 
     @Override
     public Notes getNoteFromId(int noteId) {
-        Notes note = new Notes (0, 0, "", "", "", "");
         try{
             Connection c = Database.getConnection();
-
-            c.createStatement().execute("PRAGMA foreign_keys = ON");
-            assert c != null;
+            //assert c != null;
 
             PreparedStatement ps = c.prepareStatement("SELECT * FROM notes WHERE noteId = ?");
             ps.setInt(1, noteId);
             ResultSet rs = ps.executeQuery();
-
-            note.setNoteId(rs.getInt("noteId"));
-            note.setOwner(rs.getInt("noteOwner"));
-            note.setTitle(rs.getString("noteTitle"));
-            note.setContent(rs.getString("noteContent"));
-            note.setCreatedAt(rs.getString("createdAt"));
-            note.setUpdatedAt(rs.getString("updatedAt"));
+            Notes note = new Notes(
+                    rs.getInt("noteId"),
+                    rs.getInt("noteOwner"),
+                    rs.getString("noteTitle"),
+                    rs.getString("noteContent"),
+                    rs.getString("createdAt"),
+                    rs.getString("updatedAt")
+            );
 
             ps.close();
 

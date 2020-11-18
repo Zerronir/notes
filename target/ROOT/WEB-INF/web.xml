@@ -4,5 +4,4 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-  <request-character-encoding>UTF-8</request-character-encoding>
 </web-app>

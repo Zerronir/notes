@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(value = "/viewNote")
 public class ViewNoteController extends HttpServlet {
@@ -27,37 +28,43 @@ public class ViewNoteController extends HttpServlet {
         HttpSession session = req.getSession();
         User uLogged = (User) session.getAttribute("user");
         int noteId = Integer.parseInt(req.getParameter("noteId"));
+        PrintWriter pw = resp.getWriter();
 
         if(uLogged != null){
-            if(noteId > 0){
 
-                session.setAttribute("user", uLogged);
+            if(noteId>0){
+
 
                 NotesService ns = new NotesServiceImpl();
-                Notes note = ns.getNoteFromId(noteId);
+                // Rebem la nota desde el service
+                Notes n = ns.getNoteFromId(noteId);
 
+                //De la nota agafam el contingut y cambiam el markdown de la nota a html
                 MutableDataSet options = new MutableDataSet();
-                options.set(HtmlRenderer.SOFT_BREAK, "<br /> \n");
+                options.set(HtmlRenderer.SOFT_BREAK, "<br />\n");
                 Parser parser = Parser.builder(options).build();
                 HtmlRenderer renderer = HtmlRenderer.builder(options).build();
-                Node doc = parser.parse(note.getContent());
-                String html = renderer.render(doc);
+                Node doc = parser.parse(n.getContent());
+                String content = renderer.render(doc);
 
-                req.setAttribute("note", note);
-                req.setAttribute("content", html);
+
+                // Ficam la nota dintre del request
+                req.setAttribute("note", n);
+                req.setAttribute("content", content);
+                session.setAttribute("user", uLogged);
+
+                // Una vegada tenim tots els elements preparats enviam la vista
                 dispatcher.forward(req, resp);
 
+
             } else {
-                session.setAttribute("errD", "La nota no existeix");
                 resp.sendRedirect(req.getContextPath() + "/notes");
             }
 
         } else {
-            resp.sendRedirect(req.getContextPath() + "/login");
             session.invalidate();
+            resp.sendRedirect(req.getContextPath() + "/login");
         }
-
-
 
 
     }
