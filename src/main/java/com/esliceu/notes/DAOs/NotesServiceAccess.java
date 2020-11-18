@@ -83,13 +83,11 @@ public class NotesServiceAccess implements NoteDAO {
             Connection c = Database.getConnection();
             assert c!=null;
 
-            Notes n = getNoteFromId(noteId);
-
             PreparedStatement ps = c.prepareStatement("UPDATE notes SET noteTitle = ? AND noteContent = ? WHERE noteId = ?");
             ps.setString(1, title);
             ps.setString(2, content);
             ps.setInt(3, noteId);
-            ps.executeUpdate();
+            ps.execute();
             ps.close();
             return true;
         }catch (Exception e){
@@ -196,7 +194,7 @@ public class NotesServiceAccess implements NoteDAO {
     public Notes getNoteFromId(int noteId) {
         try{
             Connection c = Database.getConnection();
-            //assert c != null;
+            assert c != null;
 
             PreparedStatement ps = c.prepareStatement("SELECT * FROM notes WHERE noteId = ?");
             ps.setInt(1, noteId);
