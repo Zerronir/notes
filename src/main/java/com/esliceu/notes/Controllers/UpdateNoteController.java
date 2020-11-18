@@ -63,8 +63,16 @@ public class UpdateNoteController extends HttpServlet {
 
             if(validateNote(title, content)){
 
-                session.setAttribute("user", uLogged);
-                resp.sendRedirect(req.getContextPath() + "/notes");
+                NotesService ns = new NotesServiceImpl();
+
+                if(ns.updateNote(title, content, noteId)){
+                    session.setAttribute("user", uLogged);
+                    resp.sendRedirect(req.getContextPath() + "/notes");
+                } else {
+                    req.setAttribute("errUp", "No s'ha pogut actualitzar la nota, torna-ho provar per favor");
+                    session.setAttribute("user", uLogged);
+                    resp.sendRedirect(req.getContextPath() + "/notes");
+                }
 
             } else {
                 String errUp = "El títol o el contigut no es vàlid, per favor torna-ho a provar";

@@ -1,8 +1,6 @@
 package com.esliceu.notes.DAOs;
 
 import com.esliceu.notes.Models.Notes;
-import com.esliceu.notes.Models.User;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -88,37 +86,13 @@ public class NotesServiceAccess implements NoteDAO {
 
             Notes n = getNoteFromId(noteId);
 
-            if(!n.getTitle().equals(title) && !n.getContent().equals(content)) {
-
-                PreparedStatement ps = c.prepareStatement("UPDATE notes SET noteTitle = ? AND noteContent = ? WHERE noteId = ?");
-                ps.setString(1, title);
-                ps.setString(2, content);
-                ps.setInt(3, noteId);
-                ps.executeUpdate();
-                ps.close();
-                return true;
-
-            } else if (n.getTitle().equals(title) && !n.getContent().equals(content)) {
-
-                PreparedStatement ps = c.prepareStatement("UPDATE notes SET noteContent = ? WHERE noteId = ?");
-                ps.setString(1, content);
-                ps.setInt(2, noteId);
-                ps.executeUpdate();
-                ps.close();
-                return true;
-
-            } else if (!n.getTitle().equals(title) && n.getContent().equals(content)) {
-
-                PreparedStatement ps = c.prepareStatement("UPDATE notes SET noteTitle = ?WHERE noteId = ?");
-                ps.setString(1, title);
-                ps.setInt(2, noteId);
-                ps.executeUpdate();
-                ps.close();
-                return true;
-
-            } else {
-                return true;
-            }
+            PreparedStatement ps = c.prepareStatement("UPDATE notes SET noteTitle = ? AND noteContent = ? WHERE noteId = ?");
+            ps.setString(1, title);
+            ps.setString(2, content);
+            ps.setInt(3, noteId);
+            ps.executeUpdate();
+            ps.close();
+            return true;
         }catch (Exception e){
             return false;
         }
@@ -129,16 +103,12 @@ public class NotesServiceAccess implements NoteDAO {
         try{
 
             Connection c = Database.getConnection();
-            c.createStatement().execute("PRAGMA foreign_keys = ON");
-
             assert c != null;
 
             PreparedStatement ps = c.prepareStatement("DELETE FROM notes WHERE noteId = ?");
             ps.setInt(1, noteId);
             ps.execute();
             ps.close();
-
-            c.close();
 
             return true;
         }catch (Exception e) {
@@ -177,7 +147,6 @@ public class NotesServiceAccess implements NoteDAO {
             }
 
             ps.close();
-            c.close();
 
         }catch (Exception e){
             return null;
@@ -199,7 +168,6 @@ public class NotesServiceAccess implements NoteDAO {
             ps.setInt(3, userId);
             ps.execute();
             ps.close();
-            c.close();
 
             return true;
         }catch (Exception e) {
@@ -219,7 +187,6 @@ public class NotesServiceAccess implements NoteDAO {
             ps.setInt(2, userId);
             ps.execute();
             ps.close();
-            c.close();
 
             return true;
         }catch (Exception e){
@@ -248,7 +215,6 @@ public class NotesServiceAccess implements NoteDAO {
             note.setUpdatedAt(rs.getString("updatedAt"));
 
             ps.close();
-            c.close();
 
             return note;
 
@@ -273,7 +239,6 @@ public class NotesServiceAccess implements NoteDAO {
             nRows = rs.getInt(1);
 
             ps.close();
-            c.close();
 
         }catch (Exception e) {
             e.getCause();
@@ -298,7 +263,6 @@ public class NotesServiceAccess implements NoteDAO {
 
             nRows = rs.getInt(1);
             ps.close();
-            c.close();
 
         }catch (Exception e) {
             e.getCause();

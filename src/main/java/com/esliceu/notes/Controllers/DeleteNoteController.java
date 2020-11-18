@@ -22,15 +22,18 @@ public class DeleteNoteController extends HttpServlet {
         int noteId = Integer.parseInt(req.getParameter("noteId"));
 
         if(uLogged != null){
+            
             if(noteId > 0) {
 
                 NotesService ns = new NotesServiceImpl();
 
                 if(ns.deleteNote(noteId)){
                     session.setAttribute("delSucs", "S'ha eliminat correctament la nota");
+                    session.setAttribute("user", uLogged);
                     resp.sendRedirect(req.getContextPath() + "/notes");
                 } else {
                     session.setAttribute("errD", "No s'ha pogut eliminar la nota");
+                    session.setAttribute("user", uLogged);
                     resp.sendRedirect(req.getContextPath() + "/notes");
                 }
 
@@ -38,6 +41,7 @@ public class DeleteNoteController extends HttpServlet {
                 session.setAttribute("errD", "La nota no existeix");
                 resp.sendRedirect(req.getContextPath() + "/notes");
             }
+
         } else {
             resp.sendRedirect(req.getContextPath() + "/login");
             session.invalidate();

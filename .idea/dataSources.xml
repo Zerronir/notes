@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="practica.db [2]" uuid="3db3dac0-318c-4ecf-99d1-728fdb2440ab">
+    <data-source source="LOCAL" name="practica.db" uuid="498be3ba-f9cc-4457-9146-da8bf20d211e">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
