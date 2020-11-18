@@ -319,6 +319,8 @@ public class NotesServiceAccess implements NoteDAO {
     private String render(String text) {
         MutableDataSet options = new MutableDataSet();
         options.set(HtmlRenderer.SOFT_BREAK, "<br />\n");
+        options.set(HtmlRenderer.ESCAPE_HTML, true);
+        options.set(HtmlRenderer.ESCAPE_HTML_BLOCKS, true);
         Parser parser = Parser.builder(options).build();
         HtmlRenderer renderer = HtmlRenderer.builder(options).build();
         Node doc = parser.parse(text);
