@@ -19,7 +19,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Inici</title>
+    <title>Notes de ${user.getName()}</title>
 </head>
 <body>
 <header>
@@ -31,8 +31,8 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Inici </a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Inici</a>
                     </li>
                     <c:choose>
                     <c:when test="${not empty user.getId()}">
@@ -48,7 +48,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/user" tabindex="-1" aria-disabled="true">El meu perfil</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="/search" tabindex="-1" aria-disabled="true">Cercador</a>
                     </li>
                     <li class="nav-item">
@@ -62,10 +62,10 @@
                 </c:when>
 
                 <c:otherwise>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="/login" tabindex="-1" aria-disabled="true">Incia sessió</a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="/register" tabindex="-1" aria-disabled="true">Registra't</a>
                     </li>
                 </c:otherwise>
@@ -78,31 +78,26 @@
 </header>
 
 <main class="container">
+    <article class="d-flex flex-row">
+        <article class="col-md-6">
+            <h4>Cercar per texte</h4>
+            <form action="/search" method="post">
+                <input type="text" name="text" class="form-control" placeholder="Cerca per texte">
+                <br>
+                <button type="submit" class="btn btn-primary">Cercar</button>
+            </form>
+        </article>
 
-            <p>Resultats:</p>
-
-            <article>
-
-                <div class="d-flex flex-wrap justify-content-between">
-                    <c:forEach var="c" items="${notes}">
-                            <div class="card mt-3 mb-3" style="width: 25rem;">
-                        
-                                    <div class="card-body">
-                                        <h5 class="card-title">${c.getTitle()}</h5>
-                                        <p class="card-text">${c.getContent()}</p>
-
-                                        <a href="/viewNote?noteId=${c.getNoteId()}" class="btn btn-success">Veure la nota</a>
-                                    </div>
-
-                                </div>
-                    </c:forEach>
-                </div>
-
-
-
-            </article>
+        <article class="col-md-6">
+            <h4>Cercar per dates</h4>
+            <form action="/search" method="post">
+                <input type="date" name="start" class="form-control"><br>
+                <input type="date" name="final" class="form-control"><br>
+                <button type="submit" class="btn btn-primary">Cercar</button>
+            </form>
+        </article>
+    </article>
 </main>
-
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

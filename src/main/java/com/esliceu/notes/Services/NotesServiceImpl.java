@@ -62,6 +62,12 @@ public class NotesServiceImpl implements NotesService {
     }
 
     @Override
+    public List<Notes> dateSearch(String init, String end){
+        NoteDAO nDAO = new NotesServiceAccess();
+        return nDAO.dateSearch(init, end);
+    }
+
+    @Override
     public int getRows(int userId) {
         NoteDAO nDAO = new NotesServiceAccess();
         return nDAO.getRows(userId);

@@ -25,6 +25,8 @@ public interface NotesService {
 
     List<Notes> titleSearch(String title);
 
+    List<Notes> dateSearch(String init, String end);
+
     int getRows(int userId);
 
     int getSharedRows(int userId);

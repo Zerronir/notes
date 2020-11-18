@@ -49,6 +49,9 @@
                                     <a class="nav-link" href="/user" tabindex="-1" aria-disabled="true">El meu perfil</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="/search" tabindex="-1" aria-disabled="true">Cercador</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="/logout" tabindex="-1" aria-disabled="true">Tanca sessió</a>
                                 </li>
                             </ul>

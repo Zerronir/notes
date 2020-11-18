@@ -49,6 +49,9 @@
                         <a class="nav-link" href="/user" tabindex="-1" aria-disabled="true">El meu perfil</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/search" tabindex="-1" aria-disabled="true">Cercador</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/logout" tabindex="-1" aria-disabled="true">Tanca sessió</a>
                     </li>
                 </ul>
@@ -76,9 +79,7 @@
 
 <main class="container">
 
-            <h1 class="display-4">Hola, ${user.getName()}</h1>
-
-            <p>Benvingut, aquí pots consultar directament les teves notes personals, compartides o veure el llistat de persones que tenen una sessió iniciada.</p>
+            <p>Resultats:</p>
 
             <article>
 

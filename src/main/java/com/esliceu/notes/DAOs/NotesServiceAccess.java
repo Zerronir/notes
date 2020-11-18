@@ -11,7 +11,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NotesServiceAccess implements NoteDAO {
@@ -71,7 +74,7 @@ public class NotesServiceAccess implements NoteDAO {
             Connection c = Database.getConnection();
 
             assert c!=null;
-            PreparedStatement ps = c.prepareStatement("INSERT INTO notes (noteOwner, noteTitle, noteContent, createdAt, updatedAt) VALUES (?, ?, ?, datetime('now'), datetime('now'))");
+            PreparedStatement ps = c.prepareStatement("INSERT INTO notes (noteOwner, noteTitle, noteContent, createdAt, updatedAt) VALUES (?, ?, ?, DATE('NOW'), DATE('now'))");
             ps.setInt(1, owner);
             ps.setString(2, title);
             ps.setString(3, content);
@@ -264,6 +267,40 @@ public class NotesServiceAccess implements NoteDAO {
         return notesByTitle;
     }
 
+    @Override
+    public List<Notes> dateSearch(String init, String end){
+        List<Notes> notes = new ArrayList<>();
+        try {
+
+            Connection c = Database.getConnection();
+            assert c != null;
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+            String initToDate = format.format(new Date());
+            Date initDate = format.parse(init);
+            Date endDate = format.parse(end);
+            PreparedStatement ps = c.prepareStatement("SELECT * FROM notes WHERE createdAt BETWEEN ? AND ?");
+            ps.setDate(1, (java.sql.Date) initDate);
+            ps.setDate(2, (java.sql.Date) endDate);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                notes.add(new Notes(
+                   rs.getInt("noteId"),
+                   rs.getInt("noteOwner"),
+                   rs.getString("noteTitle"),
+                   render(rs.getString("noteContent")),
+                   rs.getString("createdAt"),
+                   rs.getString("updatedAt")
+                ));
+            }
+
+        }catch (SQLException | ParseException e) {
+            return null;
+        }
+
+        return notes;
+    }
 
     // CONTADORS PER LA PAGINACIO
     @Override
@@ -319,8 +356,6 @@ public class NotesServiceAccess implements NoteDAO {
     private String render(String text) {
         MutableDataSet options = new MutableDataSet();
         options.set(HtmlRenderer.SOFT_BREAK, "<br />\n");
-        options.set(HtmlRenderer.ESCAPE_HTML, true);
-        options.set(HtmlRenderer.ESCAPE_HTML_BLOCKS, true);
         Parser parser = Parser.builder(options).build();
         HtmlRenderer renderer = HtmlRenderer.builder(options).build();
         Node doc = parser.parse(text);
