@@ -1,6 +1,11 @@
 package com.esliceu.notes.DAOs;
 
 import com.esliceu.notes.Models.Notes;
+import com.sun.tools.javac.util.StringUtils;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.util.data.MutableDataSet;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,11 +32,12 @@ public class NotesServiceAccess implements NoteDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
-
+                String text = render(rs.getString("noteContent"));
+                String preview = text.substring(0, 20);
+                String renderedPreview = render(preview);
                 int id = rs.getInt("noteId");
                 int owner = rs.getInt("noteOwner");
                 String title = rs.getString("noteTitle");
-                String content = rs.getString("noteContent");
                 String createdAt = rs.getString("createdAt");
                 String updatedAt = rs.getString("updatedAt");
 
@@ -40,7 +46,7 @@ public class NotesServiceAccess implements NoteDAO {
                         id,
                         owner,
                         title,
-                        content,
+                        renderedPreview,
                         createdAt,
                         updatedAt
                 );
@@ -235,11 +241,14 @@ public class NotesServiceAccess implements NoteDAO {
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
+                String text = render(rs.getString("noteContent"));
+                String preview = text.substring(0, 10);
+                String renderedPreview = render(preview);
                 notesByTitle.add(new Notes(
                         rs.getInt("noteId"),
                         rs.getInt("noteTitle"),
                         rs.getString("noteTitle"),
-                        rs.getString("noteContent"),
+                        renderedPreview,
                         rs.getString("createdAt"),
                         rs.getString("updatedAt")
                 ));
@@ -304,4 +313,18 @@ public class NotesServiceAccess implements NoteDAO {
 
         return nRows;
     }
+
+
+
+    private String render(String text) {
+        MutableDataSet options = new MutableDataSet();
+        options.set(HtmlRenderer.SOFT_BREAK, "<br />\n");
+        Parser parser = Parser.builder(options).build();
+        HtmlRenderer renderer = HtmlRenderer.builder(options).build();
+        Node doc = parser.parse(text);
+        String content = renderer.render(doc);
+        return content;
+    }
+
+
 }
