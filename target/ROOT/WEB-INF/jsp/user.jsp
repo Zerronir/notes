@@ -52,9 +52,9 @@
                         <a class="nav-link" href="/logout" tabindex="-1" aria-disabled="true">Tanca sessió</a>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cerca per títol</button>
+                <form class="form-inline my-2 my-lg-0" action="/searchByTitle" method="post">
+                    <input class="form-control mr-sm-2" name="title" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cercar</button>
                 </form>
                 </c:when>
 

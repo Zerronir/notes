@@ -22,6 +22,8 @@ public interface NoteDAO {
 
     Notes getNoteFromId(int noteId);
 
+    List<Notes> titleSearch(String title);
+
     int getRows(int userId);
 
     int getSharedRows(int userId);

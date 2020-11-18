@@ -23,6 +23,8 @@ public interface NotesService {
 
     Notes getNoteFromId(int noteId);
 
+    List<Notes> titleSearch(String title);
+
     int getRows(int userId);
 
     int getSharedRows(int userId);

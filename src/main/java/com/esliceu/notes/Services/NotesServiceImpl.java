@@ -3,7 +3,6 @@ package com.esliceu.notes.Services;
 import com.esliceu.notes.DAOs.NoteDAO;
 import com.esliceu.notes.DAOs.NotesServiceAccess;
 import com.esliceu.notes.Models.Notes;
-import com.esliceu.notes.Models.User;
 
 import java.util.List;
 
@@ -54,6 +53,12 @@ public class NotesServiceImpl implements NotesService {
     public Notes getNoteFromId(int noteId) {
         NoteDAO nDAO = new NotesServiceAccess();
         return nDAO.getNoteFromId(noteId);
+    }
+
+    @Override
+    public List<Notes> titleSearch(String title) {
+        NoteDAO nDAO = new NotesServiceAccess();
+        return nDAO.titleSearch(title);
     }
 
     @Override

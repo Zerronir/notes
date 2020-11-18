@@ -24,11 +24,11 @@ public class ViewNoteController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Rebem les dades que necessitem
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/jsp/viewNote.jsp");
         HttpSession session = req.getSession();
         User uLogged = (User) session.getAttribute("user");
         int noteId = Integer.parseInt(req.getParameter("noteId"));
-        PrintWriter pw = resp.getWriter();
 
         if(uLogged != null){
 

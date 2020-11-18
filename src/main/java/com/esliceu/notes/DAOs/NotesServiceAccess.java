@@ -1,9 +1,11 @@
 package com.esliceu.notes.DAOs;
 
 import com.esliceu.notes.Models.Notes;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +89,7 @@ public class NotesServiceAccess implements NoteDAO {
             ps.setString(1, title);
             ps.setString(2, content);
             ps.setInt(3, noteId);
-            ps.execute();
+            ps.executeUpdate();
             ps.close();
             return true;
         }catch (Exception e){
@@ -217,6 +219,44 @@ public class NotesServiceAccess implements NoteDAO {
         }
     }
 
+    // CERCADORS
+    @Override
+    public List<Notes> titleSearch(String title){
+        List<Notes> notesByTitle = new ArrayList<>();
+
+        try{
+            Connection c = Database.getConnection();
+            assert c!= null;
+
+            PreparedStatement ps = c.prepareStatement("SELECT * FROM notes WHERE noteTitle LIKE ? OR noteContent LIKE ?");
+            ps.setString(1, "%" + title + "%");
+            ps.setString(2, "%" + title + "%");
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                notesByTitle.add(new Notes(
+                        rs.getInt("noteId"),
+                        rs.getInt("noteTitle"),
+                        rs.getString("noteTitle"),
+                        rs.getString("noteContent"),
+                        rs.getString("createdAt"),
+                        rs.getString("updatedAt")
+                ));
+            }
+
+
+
+
+        }catch (SQLException e) {
+            return null;
+        }
+
+        return notesByTitle;
+    }
+
+
+    // CONTADORS PER LA PAGINACIO
     @Override
     public int getRows(int userId) {
         int nRows = 0;
