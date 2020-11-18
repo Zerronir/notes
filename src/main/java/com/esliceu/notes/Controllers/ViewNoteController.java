@@ -40,12 +40,7 @@ public class ViewNoteController extends HttpServlet {
                 Notes n = ns.getNoteFromId(noteId);
 
                 //De la nota agafam el contingut y cambiam el markdown de la nota a html
-                MutableDataSet options = new MutableDataSet();
-                options.set(HtmlRenderer.SOFT_BREAK, "<br />\n");
-                Parser parser = Parser.builder(options).build();
-                HtmlRenderer renderer = HtmlRenderer.builder(options).build();
-                Node doc = parser.parse(n.getContent());
-                String content = renderer.render(doc);
+                String content = render(n.getContent());
 
 
                 // Ficam la nota dintre del request
@@ -68,4 +63,16 @@ public class ViewNoteController extends HttpServlet {
 
 
     }
+
+    private String render (String text) {
+        MutableDataSet options = new MutableDataSet();
+        options.set(HtmlRenderer.SOFT_BREAK, "<br />\n");
+        Parser parser = Parser.builder(options).build();
+        HtmlRenderer renderer = HtmlRenderer.builder(options).build();
+        Node doc = parser.parse(text);
+        String content = renderer.render(doc);
+        return content;
+    }
+
+
 }

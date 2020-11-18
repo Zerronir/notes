@@ -127,5 +127,12 @@ public class NotesController extends HttpServlet {
         return false;
     }
 
+    private String rederText(String text){
+        String result = "";
+
+
+
+        return result;
+    }
 
 }
