@@ -239,9 +239,11 @@ public class NotesServiceAccess implements NoteDAO {
             Connection c = Database.getConnection();
             assert c!= null;
 
-            PreparedStatement ps = c.prepareStatement("SELECT * FROM notes WHERE noteTitle LIKE ? OR noteContent LIKE ?");
+            PreparedStatement ps = c.prepareStatement("SELECT * FROM notes WHERE noteTitle LIKE ? OR noteContent LIKE ? LIMIT ?,?");
             ps.setString(1, "%" + title + "%");
             ps.setString(2, "%" + title + "%");
+            ps.setInt(3, start);
+            ps.setInt(4, total);
 
             ResultSet rs = ps.executeQuery();
 
@@ -277,9 +279,12 @@ public class NotesServiceAccess implements NoteDAO {
             Connection c = Database.getConnection();
             assert c != null;
 
-            PreparedStatement ps = c.prepareStatement("SELECT * FROM notes WHERE createdAt BETWEEN ? AND ?");
+            PreparedStatement ps = c.prepareStatement("SELECT * FROM notes WHERE createdAt BETWEEN ? AND ? LIMIT ?,?");
             ps.setString(1, init);
             ps.setString(2, end);
+            ps.setInt(3, start);
+            ps.setInt(4, total);
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

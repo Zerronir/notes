@@ -53,39 +53,52 @@ public class SearchController extends HttpServlet {
             String since = req.getParameter("start");
             String toDate = req.getParameter("final");
 
-            pw.println(since);
-            pw.println(toDate);
-            pw.println(text);
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            // Cream el comptador de págines per texte
+            int total = 10;
+            int startTitle = 0;
+            int startDate = 0;
 
-            String initToDate = format.format(new Date());
-            try {
-                Date initDate = format.parse(since);
-                Date endDate = format.parse(toDate);
-
-                pw.println(initDate);
-                pw.println(endDate);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if(req.getParameter("startTitle") != null){
+                startTitle = Integer.parseInt(req.getParameter("startTitle"));
+            } else {
+                startTitle = 1;
             }
 
+            if(req.getParameter("startDate") != null){
+                startDate = Integer.parseInt(req.getParameter("startDate"));
+            } else {
+                startDate = 1;
+            }
+
+
+
+
             if (text != null) {
-
                 NotesService ns = new NotesServiceImpl();
-                List<Notes> notes = ns.titleSearch(text);
+                List<Notes> notes = ns.titleSearch(text, startTitle, total);
+                int fileresText = ns.getTitleRows(text);
+                int paginesTitle = fileresText / total;
 
-                // Cream el comptador de págines per texte
-                int total = 10;
+                int pagesToView = comptadorPerText(paginesTitle, total);
 
-
+                req.setAttribute("pagines", pagesToView);
+                req.setAttribute("pageId", startTitle);
+                req.setAttribute("total", total);
                 req.setAttribute("notes", notes);
                 session.setAttribute("user", uLogged);
                 dispatcher.forward(req, resp);
 
             } else {
                 NotesService ns = new NotesServiceImpl();
-                List<Notes> notes = ns.dateSearch(since, toDate);
+                List<Notes> notes = ns.dateSearch(since, toDate, startDate, total);
+                int fileresData = ns.getSearchRows(since, toDate);
+                int paginesDate = fileresData / total;
+
+                int pagesToView = comptadorPerData(paginesDate, total);
+
+                req.setAttribute("pageId", startDate);
+                req.setAttribute("total", total);
+                req.setAttribute("pagines", pagesToView);
                 req.setAttribute("notes", notes);
                 session.setAttribute("user", uLogged);
                 dispatcher.forward(req, resp);
@@ -100,9 +113,9 @@ public class SearchController extends HttpServlet {
     }
 
     private int comptadorPerText(int filas, int total){
-        int pagines = 0;
+        int pagines = filas;
 
-        if (pagines % 2 == 0){
+        if (pagines % total > 0){
             pagines++;
         }
 
@@ -110,9 +123,9 @@ public class SearchController extends HttpServlet {
     }
 
     private int comptadorPerData(int filasFecha, int total){
-        int pagines = 0;
+        int pagines = filasFecha;
 
-        if (pagines % 2 == 0){
+        if (pagines % total > 0){
             pagines++;
         }
 

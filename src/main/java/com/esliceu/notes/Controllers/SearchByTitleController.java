@@ -25,11 +25,23 @@ public class SearchByTitleController extends HttpServlet {
 
         if(uLogged != null){
             String title = req.getParameter("title");
-
+            int total = 10;
+            int start = 0;
+            if(req.getParameter("start") != null){
+                start = Integer.parseInt(req.getParameter("start"));
+            } else {
+                start = 1;
+            }
             NotesService ns = new NotesServiceImpl();
-            List<Notes> notesList = ns.titleSearch(title);
+            List<Notes> notesList = ns.titleSearch(title, start, total);
+            int fileresText = ns.getTitleRows(title);
+            int paginesTitle = fileresText / total;
 
+            int pagesToView = comptadorPerText(paginesTitle, total);
             if(notesList != null){
+                req.setAttribute("pagines", pagesToView);
+                req.setAttribute("pageId", start);
+                req.setAttribute("total", total);
                 req.setAttribute("notes", notesList);
                 session.setAttribute("user", uLogged);
                 dispatcher.forward(req, resp);
@@ -41,5 +53,14 @@ public class SearchByTitleController extends HttpServlet {
         }
 
 
+    }
+    private int comptadorPerText(int filas, int total){
+        int pagines = filas;
+
+        if (pagines % total > 0){
+            pagines++;
+        }
+
+        return pagines;
     }
 }

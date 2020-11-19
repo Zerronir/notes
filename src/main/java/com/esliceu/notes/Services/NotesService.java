@@ -23,11 +23,15 @@ public interface NotesService {
 
     Notes getNoteFromId(int noteId);
 
-    List<Notes> titleSearch(String title);
+    List<Notes> titleSearch(String title, int start, int total);
 
-    List<Notes> dateSearch(String init, String end);
+    List<Notes> dateSearch(String init, String end, int start, int total);
 
     int getRows(int userId);
 
     int getSharedRows(int userId);
+
+    int getTitleRows(String text);
+    int getSearchRows(String init, String end);
+
 }

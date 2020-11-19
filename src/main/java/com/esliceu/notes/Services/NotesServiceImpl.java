@@ -56,15 +56,15 @@ public class NotesServiceImpl implements NotesService {
     }
 
     @Override
-    public List<Notes> titleSearch(String title) {
+    public List<Notes> titleSearch(String title, int start, int total) {
         NoteDAO nDAO = new NotesServiceAccess();
-        return nDAO.titleSearch(title);
+        return nDAO.titleSearch(title, start, total);
     }
 
     @Override
-    public List<Notes> dateSearch(String init, String end){
+    public List<Notes> dateSearch(String init, String end, int start, int total){
         NoteDAO nDAO = new NotesServiceAccess();
-        return nDAO.dateSearch(init, end);
+        return nDAO.dateSearch(init, end, start, total);
     }
 
     @Override
@@ -77,5 +77,17 @@ public class NotesServiceImpl implements NotesService {
     public int getSharedRows(int userId) {
         NoteDAO nDAO = new NotesServiceAccess();
         return nDAO.getSharedRows(userId);
+    }
+
+    @Override
+    public int getTitleRows(String text) {
+       NoteDAO nDAO = new NotesServiceAccess();
+       return nDAO.rowsByTitle(text);
+    }
+
+    @Override
+    public int getSearchRows(String init, String end) {
+        NoteDAO nDAO = new NotesServiceAccess();
+        return nDAO.rowsByDate(init, end);
     }
 }
