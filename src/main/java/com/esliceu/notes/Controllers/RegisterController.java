@@ -29,15 +29,7 @@ public class RegisterController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/jsp/register.jsp");
         HttpSession session = req.getSession();
-        User uLogged = (User) session.getAttribute("user");
-
-        if(uLogged != null){
-            resp.sendRedirect(req.getContextPath() + "/user");
-        } else {
-            dispatcher.forward(req, resp);
-            session.invalidate();
-        }
-
+        dispatcher.forward(req, resp);
     }
 
     @Override

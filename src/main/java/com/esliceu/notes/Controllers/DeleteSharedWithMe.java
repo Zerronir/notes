@@ -20,29 +20,18 @@ public class DeleteSharedWithMe extends HttpServlet {
         HttpSession session = req.getSession();
         User uLogged = (User) session.getAttribute("user");
 
-        if(uLogged != null){
+        int noteId = Integer.parseInt(req.getParameter("noteId"));
 
-            int noteId = Integer.parseInt(req.getParameter("noteId"));
+        NotesService ns = new NotesServiceImpl();
+        int id = uLogged.getId();
 
-            NotesService ns = new NotesServiceImpl();
-            int id = uLogged.getId();
-
-            PrintWriter pw = resp.getWriter();
-            pw.println(noteId);
-            pw.println(uLogged.getId());
-
-            // Comprovam la validació de l'id de la nota i d'usuari
-            if(ns.deleteSharedNote(noteId, id)){
-                session.setAttribute("user", uLogged);
-                resp.sendRedirect(req.getContextPath() + "/notesCompartides");
-            } else {
-                String err = "No s'ah pogut descompartir aquesta nota amb tú, torna-ho a provar";
-                session.setAttribute("errDS", err);
-                resp.sendRedirect(req.getContextPath() + "/notesCompartides");
-            }
+        // Comprovam la validació de l'id de la nota i d'usuari
+        if(ns.deleteSharedNote(noteId, id)){
+            resp.sendRedirect(req.getContextPath() + "/notesCompartides");
         } else {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            session.invalidate();
+            String err = "No s'ah pogut descompartir aquesta nota amb tú, torna-ho a provar";
+            session.setAttribute("errDS", err);
+            resp.sendRedirect(req.getContextPath() + "/notesCompartides");
         }
 
     }
