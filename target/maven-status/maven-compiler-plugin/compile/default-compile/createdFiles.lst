@@ -14,6 +14,7 @@ com\esliceu\notes\Services\UserService.class
 com\esliceu\notes\Services\NotesServiceImpl.class
 com\esliceu\notes\Controllers\RegisterController.class
 com\esliceu\notes\Models\Notes.class
+com\esliceu\notes\Filters\isLogged.class
 com\esliceu\notes\Controllers\SearchByTitleController.class
 com\esliceu\notes\Controllers\LoginController.class
 com\esliceu\notes\Controllers\ViewNoteController.class

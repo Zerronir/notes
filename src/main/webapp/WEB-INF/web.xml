@@ -5,4 +5,25 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
   <request-character-encoding>UTF-8</request-character-encoding>
+
+  <filter>
+    <filter-name>isLogged</filter-name>
+    <filter-class>com.esliceu.notes.Filters.isLogged</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>isLogged</filter-name>
+    <url-pattern>/deleteNote</url-pattern>
+    <url-pattern>/deleteSharedNoteNotOwner</url-pattern>
+    <url-pattern>/notes</url-pattern>
+    <url-pattern>/newNote</url-pattern>
+    <url-pattern>/searchByTitle</url-pattern>
+    <url-pattern>/search</url-pattern>
+    <url-pattern>/shareNote</url-pattern>
+    <url-pattern>/searchByTitle</url-pattern>
+    <url-pattern>/editNote</url-pattern>
+    <url-pattern>/user</url-pattern>
+    <url-pattern>/viewNote</url-pattern>
+    <url-pattern>/notesCompartides</url-pattern>
+  </filter-mapping>
 </web-app>

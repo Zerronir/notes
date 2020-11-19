@@ -16,16 +16,6 @@ public class newNoteController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/jsp/newNote.jsp");
-        HttpSession session = req.getSession();
-        User uLogged = (User) session.getAttribute("user");
-
-        if(uLogged != null){
-            session.setAttribute("user", uLogged);
-            dispatcher.forward(req,resp);
-        } else {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            session.invalidate();
-        }
-
+        dispatcher.forward(req,resp);
     }
 }

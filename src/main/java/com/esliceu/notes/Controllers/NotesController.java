@@ -31,43 +31,37 @@ public class NotesController extends HttpServlet {
         HttpSession session = req.getSession();
         User uLogged = (User) session.getAttribute("user");
 
-        if(uLogged != null){
-
-            int start = 0;
-            if(req.getParameter("page") != null){
-                start = Integer.parseInt(req.getParameter("page"));
-            } else {
-                start = 1;
-            }
-
-            int total = 10;
-
-            int id = uLogged.getId();
-            UserService us = new UserServiceImpl();
-            NotesService ns = new NotesServiceImpl();
-            List<Notes> notes = ns.getNotes(id, start, total);
-            int fileres = ns.getRows(id);
-
-            int pagines = fileres / total;
-
-            if(pagines % total > 0){
-                pagines++;
-            }
-
-            req.setAttribute("pagines", pagines);
-            req.setAttribute("pageId", start);
-            req.setAttribute("total", total);
-
-            List<User> userList = us.getAll(uLogged.getId());
-            req.setAttribute("users", userList);
-            req.setAttribute("notes", notes);
-            session.setAttribute("user", uLogged);
-
-            dispatcher.forward(req, resp);
-
+        int start = 0;
+        if(req.getParameter("page") != null){
+            start = Integer.parseInt(req.getParameter("page"));
         } else {
-            resp.sendRedirect(req.getContextPath() + "/login");
+            start = 1;
         }
+
+        int total = 10;
+
+        int id = uLogged.getId();
+        UserService us = new UserServiceImpl();
+        NotesService ns = new NotesServiceImpl();
+        List<Notes> notes = ns.getNotes(id, start, total);
+        int fileres = ns.getRows(id);
+
+        int pagines = fileres / total;
+
+        if(pagines % total > 0){
+            pagines++;
+        }
+
+        req.setAttribute("pagines", pagines);
+        req.setAttribute("pageId", start);
+        req.setAttribute("total", total);
+
+        List<User> userList = us.getAll(uLogged.getId());
+        req.setAttribute("users", userList);
+        req.setAttribute("notes", notes);
+        session.setAttribute("user", uLogged);
+
+        dispatcher.forward(req, resp);
 
     }
 
