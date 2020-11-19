@@ -22,19 +22,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/jsp/login.jsp");
-        HttpSession session = req.getSession();
-        User u = (User) session.getAttribute("user");
-
-        if(u != null){
-            session.invalidate();
-            resp.sendRedirect(req.getContextPath() + "/");
-        } else {
-
-            dispatcher.forward(req, resp);
-
-        }
-
-
+        dispatcher.forward(req, resp);
     }
 
     @Override

@@ -19,34 +19,18 @@ public class ShareNoteController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        PrintWriter pw = resp.getWriter();
         User uLogged = (User) session.getAttribute("user");
         int noteId = Integer.parseInt(req.getParameter("noteId"));
         int userId = Integer.parseInt(req.getParameter("usersList"));
-        if(uLogged != null) {
 
-            NotesService ns = new NotesServiceImpl();
+        NotesService ns = new NotesServiceImpl();
 
-            if(ns.shareNote(noteId, uLogged.getId(), userId)) {
-                pw.println("NO ERRORS: ");
-                pw.println("noteId: " + noteId);
-                pw.println("ownerId: " + uLogged.getId());
-                pw.println("userId: " + userId);
-                session.setAttribute("sharedOk", "La nota s'ha compartit correctament");
-                resp.sendRedirect(req.getContextPath() + "/notes");
-            } else {
-                pw.println("WITH ERRORS:");
-                pw.println("noteId: " + noteId);
-                pw.println("ownerId: " + uLogged.getId());
-                pw.println("userId: " + userId);
-                session.setAttribute("sharedErr", "La nota no s'ha compartit");
-                resp.sendRedirect(req.getContextPath() + "/notes");
-            }
-
-
+        if(ns.shareNote(noteId, uLogged.getId(), userId)) {
+            session.setAttribute("sharedOk", "La nota s'ha compartit correctament");
+            resp.sendRedirect(req.getContextPath() + "/notes");
         } else {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            session.invalidate();
+            session.setAttribute("sharedErr", "La nota no s'ha compartit");
+            resp.sendRedirect(req.getContextPath() + "/notes");
         }
 
     }

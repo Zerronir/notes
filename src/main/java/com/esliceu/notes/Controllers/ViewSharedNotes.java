@@ -23,27 +23,21 @@ public class ViewSharedNotes extends HttpServlet {
         HttpSession session = req.getSession();
         User uLogged = (User) session.getAttribute("user");
 
-        if(uLogged != null){
-            NotesService ns = new NotesServiceImpl();
-            int start = 0;
-            if(req.getParameter("page") != null){
-                start = Integer.parseInt(req.getParameter("page"));
-            } else {
-                start = 1;
-            }
-
-            int total = 10;
-
-            List<Notes> notesList = ns.getSharedWithMe(uLogged.getId(),start, total);
-            req.setAttribute("shared", notesList);
-            session.setAttribute("user", uLogged);
-
-            dispatcher.forward(req,resp);
-
+        NotesService ns = new NotesServiceImpl();
+        int start = 0;
+        if(req.getParameter("page") != null){
+            start = Integer.parseInt(req.getParameter("page"));
         } else {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            session.invalidate();
+            start = 1;
         }
+
+        int total = 10;
+
+        List<Notes> notesList = ns.getSharedWithMe(uLogged.getId(),start, total);
+        req.setAttribute("shared", notesList);
+        session.setAttribute("user", uLogged);
+
+        dispatcher.forward(req,resp);
 
     }
 }

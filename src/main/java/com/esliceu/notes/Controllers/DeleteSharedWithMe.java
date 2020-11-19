@@ -20,16 +20,15 @@ public class DeleteSharedWithMe extends HttpServlet {
         HttpSession session = req.getSession();
         User uLogged = (User) session.getAttribute("user");
 
-        int noteId = Integer.parseInt(req.getParameter("noteId"));
-
         NotesService ns = new NotesServiceImpl();
+        int noteId = Integer.parseInt(req.getParameter("noteId"));
         int id = uLogged.getId();
 
         // Comprovam la validació de l'id de la nota i d'usuari
         if(ns.deleteSharedNote(noteId, id)){
             resp.sendRedirect(req.getContextPath() + "/notesCompartides");
         } else {
-            String err = "No s'ah pogut descompartir aquesta nota amb tú, torna-ho a provar";
+            String err = "No s'ha pogut descompartir aquesta nota amb tú, torna-ho a provar";
             session.setAttribute("errDS", err);
             resp.sendRedirect(req.getContextPath() + "/notesCompartides");
         }

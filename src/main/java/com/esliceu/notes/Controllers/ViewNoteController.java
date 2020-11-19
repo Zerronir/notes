@@ -30,35 +30,28 @@ public class ViewNoteController extends HttpServlet {
         User uLogged = (User) session.getAttribute("user");
         int noteId = Integer.parseInt(req.getParameter("noteId"));
 
-        if(uLogged != null){
-
-            if(noteId>0){
+        if(noteId>0){
 
 
-                NotesService ns = new NotesServiceImpl();
-                // Rebem la nota desde el service
-                Notes n = ns.getNoteFromId(noteId);
+            NotesService ns = new NotesServiceImpl();
+            // Rebem la nota desde el service
+            Notes n = ns.getNoteFromId(noteId);
 
-                //De la nota agafam el contingut y cambiam el markdown de la nota a html
-                String content = render(n.getContent());
-
-
-                // Ficam la nota dintre del request
-                req.setAttribute("note", n);
-                req.setAttribute("content", content);
-                session.setAttribute("user", uLogged);
-
-                // Una vegada tenim tots els elements preparats enviam la vista
-                dispatcher.forward(req, resp);
+            //De la nota agafam el contingut y cambiam el markdown de la nota a html
+            String content = render(n.getContent());
 
 
-            } else {
-                resp.sendRedirect(req.getContextPath() + "/notes");
-            }
+            // Ficam la nota dintre del request
+            req.setAttribute("note", n);
+            req.setAttribute("content", content);
+            session.setAttribute("user", uLogged);
+
+            // Una vegada tenim tots els elements preparats enviam la vista
+            dispatcher.forward(req, resp);
+
 
         } else {
-            session.invalidate();
-            resp.sendRedirect(req.getContextPath() + "/login");
+            resp.sendRedirect(req.getContextPath() + "/notes");
         }
 
 
