@@ -22,38 +22,34 @@ public class SearchByTitleController extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/jsp/searchResults.jsp");
         HttpSession session = req.getSession();
         User uLogged = (User) session.getAttribute("user");
+        String title = req.getParameter("title");
 
-        if(uLogged != null){
-            String title = req.getParameter("title");
-            int total = 10;
-            int start = 0;
-            if(req.getParameter("start") != null){
-                start = Integer.parseInt(req.getParameter("start"));
-            } else {
-                start = 1;
-            }
-            NotesService ns = new NotesServiceImpl();
-            List<Notes> notesList = ns.titleSearch(title, start, total);
-            int fileresText = ns.getTitleRows(title);
-            int paginesTitle = fileresText / total;
-
-            int pagesToView = comptadorPerText(paginesTitle, total);
-            if(notesList != null){
-                req.setAttribute("pagines", pagesToView);
-                req.setAttribute("pageId", start);
-                req.setAttribute("total", total);
-                req.setAttribute("notes", notesList);
-                session.setAttribute("user", uLogged);
-                dispatcher.forward(req, resp);
-            }
-
+        int total = 10;
+        int start = 0;
+        if(req.getParameter("start") != null){
+            start = Integer.parseInt(req.getParameter("start"));
         } else {
-            session.invalidate();
-            resp.sendRedirect(req.getContextPath() + "/login");
+            start = 1;
+        }
+
+        NotesService ns = new NotesServiceImpl();
+        List<Notes> notesList = ns.titleSearch(title, start, total);
+        int fileresText = ns.getTitleRows(title);
+        int paginesTitle = fileresText / total;
+
+        int pagesToView = comptadorPerText(paginesTitle, total);
+        if(notesList != null){
+            req.setAttribute("pagines", pagesToView);
+            req.setAttribute("pageId", start);
+            req.setAttribute("total", total);
+            req.setAttribute("notes", notesList);
+            session.setAttribute("user", uLogged);
+            dispatcher.forward(req, resp);
         }
 
 
     }
+
     private int comptadorPerText(int filas, int total){
         int pagines = filas;
 
