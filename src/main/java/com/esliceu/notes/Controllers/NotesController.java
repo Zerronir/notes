@@ -75,39 +75,21 @@ public class NotesController extends HttpServlet {
         // Rebem l'usuari del que obtindrem el seu id
         User uLogged = (User) session.getAttribute("user");
 
-        if (uLogged != null){
+        // Validam la nota
+        if(validateNote(title, content)){
+            NotesService ns = new NotesServiceImpl();
 
-            if(validateNote(title, content)){
-                NotesService ns = new NotesServiceImpl();
-                PrintWriter pw = resp.getWriter();
+            // Si rebem un valor de true, la nota s'ha afegit correctament y redireccionarem a l'usuari a la pàgina de notes
+            if(ns.addNote(uLogged.getId(), title, content)){
+                resp.sendRedirect(req.getContextPath() + "/notes");
 
-                Notes n = new Notes(0, uLogged.getId(), title, content, "", "");
-
-
-                pw.println("note title" + n.getTitle());
-                pw.println("note content" + n.getContent());
-                pw.println("owner" + n.getOwner());
-
-                // Si rebem un valor de true, la nota s'ha afegit correctament y redireccionarem a l'usuari a la pàgina de notes
-                if(ns.addNote(uLogged.getId(), title, content)){
-                    session.setAttribute("user", uLogged);
-                    resp.sendRedirect(req.getContextPath() + "/notes");
-
-                } else {
-                    String err = "Hi ha hagut un error al inserir la base de dades, per favor, torna-ho a provar i si persisteix l'error contacta amb un administrador";
-                    session.setAttribute("err", err);
-                    resp.sendRedirect(req.getContextPath() + "/notes");
-                }
             } else {
-                String err = "Hi ha hagut un error amb el títol o amb el contigut, revisa les longituds";
-                session.setAttribute("err", err);
+                String err = "Hi ha hagut un error al inserir la base de dades, per favor, torna-ho a provar i si persisteix l'error contacta amb un administrador";
                 resp.sendRedirect(req.getContextPath() + "/notes");
             }
-
-
         } else {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            session.invalidate();
+            String err = "Hi ha hagut un error amb el títol o amb el contigut, revisa les longituds";
+            resp.sendRedirect(req.getContextPath() + "/notes");
         }
 
     }
@@ -119,14 +101,6 @@ public class NotesController extends HttpServlet {
         }
 
         return false;
-    }
-
-    private String rederText(String text){
-        String result = "";
-
-
-
-        return result;
     }
 
 }
