@@ -1,7 +1,9 @@
 package com.esliceu.notes.DAOs;
 
 import com.esliceu.notes.Models.Notes;
+import com.mysql.cj.protocol.Resultset;
 import com.sun.tools.javac.util.StringUtils;
+import com.vladsch.flexmark.ext.escaped.character.EscapedCharacterExtension;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Node;
@@ -230,7 +232,7 @@ public class NotesServiceAccess implements NoteDAO {
 
     // CERCADORS
     @Override
-    public List<Notes> titleSearch(String title){
+    public List<Notes> titleSearch(String title, int start, int total){
         List<Notes> notesByTitle = new ArrayList<>();
 
         try{
@@ -268,20 +270,16 @@ public class NotesServiceAccess implements NoteDAO {
     }
 
     @Override
-    public List<Notes> dateSearch(String init, String end){
+    public List<Notes> dateSearch(String init, String end, int start, int total){
         List<Notes> notes = new ArrayList<>();
         try {
 
             Connection c = Database.getConnection();
             assert c != null;
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-            String initToDate = format.format(new Date());
-            Date initDate = format.parse(init);
-            Date endDate = format.parse(end);
             PreparedStatement ps = c.prepareStatement("SELECT * FROM notes WHERE createdAt BETWEEN ? AND ?");
-            ps.setDate(1, (java.sql.Date) initDate);
-            ps.setDate(2, (java.sql.Date) endDate);
+            ps.setString(1, init);
+            ps.setString(2, end);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -295,7 +293,7 @@ public class NotesServiceAccess implements NoteDAO {
                 ));
             }
 
-        }catch (SQLException | ParseException e) {
+        }catch (SQLException e) {
             return null;
         }
 
@@ -351,6 +349,52 @@ public class NotesServiceAccess implements NoteDAO {
         return nRows;
     }
 
+    @Override
+    public int rowsByTitle(String text) {
+        int nRows = 0;
+
+        try {
+
+            Connection c = Database.getConnection();
+            assert c!=null;
+
+            PreparedStatement ps = c.prepareStatement("SELECT count(noteId) FROM notes WHERE noteTitle LIKE ? OR noteContent LIKE ?");
+            ps.setString(1, "%s" + text + "%s");
+            ps.setString(2, "%s" + text + "%s");
+            ResultSet rs = ps.executeQuery();
+
+            // Retornam el número de notes que ha trobat el cercador per texte per la seva paginació
+            nRows = rs.getInt(1);
+            ps.close();
+        }catch (Exception e){
+            e.getCause();
+        }
+
+        return nRows;
+    }
+
+    @Override
+    public int rowsByDate(String init, String end) {
+        int nRows = 0;
+
+        try{
+
+            Connection c = Database.getConnection();
+            PreparedStatement ps = c.prepareStatement("SELECT count(noteId) FROM notes WHERE createdAt BETWEEN ? AND ?");
+            ps.setString(1, init);
+            ps.setString(2, end);
+
+            ResultSet rs = ps.executeQuery();
+
+            nRows = rs.getInt(1);
+            ps.close();
+
+        }catch (Exception e){
+            e.getCause();
+        }
+
+        return nRows;
+    }
 
 
     private String render(String text) {

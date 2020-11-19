@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.PreparedStatement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet(value = "/search")
@@ -51,11 +55,29 @@ public class SearchController extends HttpServlet {
 
             pw.println(since);
             pw.println(toDate);
+            pw.println(text);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-            if (text != "") {
+            String initToDate = format.format(new Date());
+            try {
+                Date initDate = format.parse(since);
+                Date endDate = format.parse(toDate);
+
+                pw.println(initDate);
+                pw.println(endDate);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            if (text != null) {
 
                 NotesService ns = new NotesServiceImpl();
                 List<Notes> notes = ns.titleSearch(text);
+
+                // Cream el comptador de págines per texte
+                int total = 10;
+
 
                 req.setAttribute("notes", notes);
                 session.setAttribute("user", uLogged);
@@ -76,4 +98,26 @@ public class SearchController extends HttpServlet {
         }
 
     }
+
+    private int comptadorPerText(int filas, int total){
+        int pagines = 0;
+
+        if (pagines % 2 == 0){
+            pagines++;
+        }
+
+        return pagines;
+    }
+
+    private int comptadorPerData(int filasFecha, int total){
+        int pagines = 0;
+
+        if (pagines % 2 == 0){
+            pagines++;
+        }
+
+        return pagines;
+    }
+
+
 }

@@ -78,28 +78,20 @@
 </header>
 
 <main class="container">
-
             <p>Resultats:</p>
-
             <article>
-
                 <div class="d-flex flex-wrap justify-content-between">
                     <c:forEach var="c" items="${notes}">
                             <div class="card mt-3 mb-3" style="width: 25rem;">
-                        
                                     <div class="card-body">
                                         <h5 class="card-title">${c.getTitle()}</h5>
                                         <p class="card-text">${c.getContent()}</p>
 
                                         <a href="/viewNote?noteId=${c.getNoteId()}" class="btn btn-success">Veure la nota</a>
                                     </div>
-
                                 </div>
                     </c:forEach>
                 </div>
-
-
-
             </article>
 </main>
 

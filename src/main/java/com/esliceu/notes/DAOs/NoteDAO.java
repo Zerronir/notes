@@ -22,11 +22,15 @@ public interface NoteDAO {
 
     Notes getNoteFromId(int noteId);
 
-    List<Notes> titleSearch(String title);
+    List<Notes> titleSearch(String title, int start, int total);
 
-    List<Notes> dateSearch (String init, String end);
+    List<Notes> dateSearch (String init, String end, int start, int total);
 
     int getRows(int userId);
 
     int getSharedRows(int userId);
+
+    int rowsByTitle(String text);
+
+    int rowsByDate(String init, String end);
 }
