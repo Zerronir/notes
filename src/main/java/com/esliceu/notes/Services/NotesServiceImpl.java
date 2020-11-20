@@ -80,14 +80,14 @@ public class NotesServiceImpl implements NotesService {
     }
 
     @Override
-    public int getTitleRows(String text) {
+    public int getTitleRows(String text, int userId) {
        NoteDAO nDAO = new NotesServiceAccess();
-       return nDAO.rowsByTitle(text);
+       return nDAO.rowsByTitle(text, userId);
     }
 
     @Override
-    public int getSearchRows(String init, String end) {
+    public int getSearchRows(String init, String end, int userId) {
         NoteDAO nDAO = new NotesServiceAccess();
-        return nDAO.rowsByDate(init, end);
+        return nDAO.rowsByDate(init, end, userId);
     }
 }

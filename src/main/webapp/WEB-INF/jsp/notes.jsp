@@ -119,65 +119,70 @@
 
     <div class="container">
         <div class="d-flex flex-wrap justify-content-between">
-            <c:forEach var="c" items="${notes}">
+            <form action="/deleteMultipleNotes" method="post">
 
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">De veres vols eliminar la nota?</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Aquesta acció eliminará la nota de manera definitiva, estás segur/a?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No la vull eliminar</button>
-                                <a href="/deleteNote?noteId=${c.getNoteId()}" class="btn btn-danger">Elimina la nota</a>
+                <c:forEach var="c" items="${notes}">
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">De veres vols eliminar la nota?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Aquesta acció eliminará la nota de manera definitiva, estás segur/a?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No la vull eliminar</button>
+                                    <a href="/deleteNote?noteId=${c.getNoteId()}" class="btn btn-danger">Elimina la nota</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
 
-                <div class="card mt-3 mb-3" style="width: 25rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">${c.getTitle()}</h5>
-                        <p class="card-text">${c.getContent()}</p>
+                    <div class="card mt-3 mb-3" style="width: 25rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">${c.getTitle()}</h5>
+                            <p class="card-text">${c.getContent()}</p>
 
-                        <a href="/editNote?noteId=${c.getNoteId()}" class="btn btn-primary">Edita la nota</a>
+                            <a href="/editNote?noteId=${c.getNoteId()}" class="btn btn-primary">Edita la nota</a>
 
-                        <a href="/viewNote?noteId=${c.getNoteId()}" class="btn btn-success">Veure la nota</a>
+                            <a href="/viewNote?noteId=${c.getNoteId()}" class="btn btn-success">Veure la nota</a>
 
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-                            Elimina la nota
-                        </button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                                Elimina la nota
+                            </button>
 
 
+                        </div>
+                        <div class="card-footer">
+                            <form action="/shareNote" method="post">
+                                <input type="hidden" value="${c.getNoteId()}" name="noteId">
+                                <input type="hidden" value="${c.getOwner()}" name="ownerId">
+
+                                <select name="usersList" id="usersList">
+                                    <option value="" selected>-- Selecciona un usuari --</option>
+
+                                    <c:forEach var="us" items="${users}">
+                                        <option value="${us.getId()}">${us.getEmail()}</option>
+                                    </c:forEach>
+
+                                </select>
+
+                                <button type="submit" class="btn btn-warning">Comparteix la nota</button>
+
+                            </form>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <form action="/shareNote" method="post">
-                            <input type="hidden" value="${c.getNoteId()}" name="noteId">
-                            <input type="hidden" value="${c.getOwner()}" name="ownerId">
+                </c:forEach>
 
-                            <select name="usersList" id="usersList">
-                                <option value="" selected>-- Selecciona un usuari --</option>
+            </form>
 
-                                <c:forEach var="us" items="${users}">
-                                    <option value="${us.getId()}">${us.getEmail()}</option>
-                                </c:forEach>
-
-                            </select>
-
-                            <button type="submit" class="btn btn-warning">Comparteix la nota</button>
-                            
-                        </form>
-                    </div>
-                </div>
-            </c:forEach>
         </div>
 
         <c:if test="${not empty notes}">

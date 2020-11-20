@@ -1,23 +1,16 @@
 package com.esliceu.notes.DAOs;
 
 import com.esliceu.notes.Models.Notes;
-import com.mysql.cj.protocol.Resultset;
-import com.sun.tools.javac.util.StringUtils;
-import com.vladsch.flexmark.ext.escaped.character.EscapedCharacterExtension;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 
-import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class NotesServiceAccess implements NoteDAO {
@@ -40,7 +33,7 @@ public class NotesServiceAccess implements NoteDAO {
             while (rs.next()){
                 String text = render(rs.getString("noteContent"));
                 String preview = text.substring(0, 20);
-                String renderedPreview = render(preview);
+                String renderedPreview = render(preview) + "...";
                 int id = rs.getInt("noteId");
                 int owner = rs.getInt("noteOwner");
                 String title = rs.getString("noteTitle");
@@ -372,7 +365,7 @@ public class NotesServiceAccess implements NoteDAO {
     }
 
     @Override
-    public int rowsByTitle(String text) {
+    public int rowsByTitle(String text, int userId) {
         int nRows = 0;
 
         try {
@@ -380,9 +373,10 @@ public class NotesServiceAccess implements NoteDAO {
             Connection c = Database.getConnection();
             assert c!=null;
 
-            PreparedStatement ps = c.prepareStatement("SELECT count(noteId) FROM notes WHERE noteTitle LIKE ? OR noteContent LIKE ?");
+            PreparedStatement ps = c.prepareStatement("SELECT count(noteId) FROM notes WHERE noteTitle LIKE ? OR noteContent LIKE ? AND noteOwner = ?");
             ps.setString(1, "%s" + text + "%s");
             ps.setString(2, "%s" + text + "%s");
+            ps.setInt(3, userId);
             ResultSet rs = ps.executeQuery();
 
             // Retornam el número de notes que ha trobat el cercador per texte per la seva paginació
@@ -399,15 +393,16 @@ public class NotesServiceAccess implements NoteDAO {
     }
 
     @Override
-    public int rowsByDate(String init, String end) {
+    public int rowsByDate(String init, String end, int userId) {
         int nRows = 0;
 
         try{
 
             Connection c = Database.getConnection();
-            PreparedStatement ps = c.prepareStatement("SELECT count(noteId) FROM notes WHERE createdAt BETWEEN ? AND ?");
+            PreparedStatement ps = c.prepareStatement("SELECT count(noteId) FROM notes WHERE createdAt BETWEEN ? AND ? AND noteOwner = ?");
             ps.setString(1, init);
             ps.setString(2, end);
+            ps.setInt(3, userId);
 
             ResultSet rs = ps.executeQuery();
 

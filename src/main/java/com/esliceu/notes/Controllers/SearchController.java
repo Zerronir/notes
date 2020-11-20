@@ -57,7 +57,7 @@ public class SearchController extends HttpServlet {
         if (text != null) {
             NotesService ns = new NotesServiceImpl();
             List<Notes> notes = ns.titleSearch(text, startTitle, total);
-            int fileresText = ns.getTitleRows(text);
+            int fileresText = ns.getTitleRows(text, uLogged.getId());
             int paginesTitle = fileresText / total;
 
             int pagesToView = comptadorPerText(paginesTitle, total);
@@ -72,7 +72,7 @@ public class SearchController extends HttpServlet {
         } else {
             NotesService ns = new NotesServiceImpl();
             List<Notes> notes = ns.dateSearch(since, toDate, startDate, total);
-            int fileresData = ns.getSearchRows(since, toDate);
+            int fileresData = ns.getSearchRows(since, toDate, uLogged.getId());
             int paginesDate = fileresData / total;
 
             int pagesToView = comptadorPerData(paginesDate, total);

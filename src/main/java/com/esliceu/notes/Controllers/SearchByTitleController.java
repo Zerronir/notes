@@ -34,7 +34,7 @@ public class SearchByTitleController extends HttpServlet {
 
         NotesService ns = new NotesServiceImpl();
         List<Notes> notesList = ns.titleSearch(title, start, total);
-        int fileresText = ns.getTitleRows(title);
+        int fileresText = ns.getTitleRows(title, uLogged.getId());
         int paginesTitle = fileresText / total;
 
         int pagesToView = comptadorPerText(paginesTitle, total);

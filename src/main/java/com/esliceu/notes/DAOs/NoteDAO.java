@@ -30,7 +30,7 @@ public interface NoteDAO {
 
     int getSharedRows(int userId);
 
-    int rowsByTitle(String text);
+    int rowsByTitle(String text, int userId);
 
-    int rowsByDate(String init, String end);
+    int rowsByDate(String init, String end, int userId);
 }

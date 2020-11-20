@@ -31,7 +31,7 @@ public interface NotesService {
 
     int getSharedRows(int userId);
 
-    int getTitleRows(String text);
-    int getSearchRows(String init, String end);
+    int getTitleRows(String text, int userId);
+    int getSearchRows(String init, String end, int userId);
 
 }
