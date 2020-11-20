@@ -99,7 +99,7 @@ public class NotesServiceAccess implements NoteDAO {
             Connection c = Database.getConnection();
             assert c!=null;
 
-            PreparedStatement ps = c.prepareStatement("UPDATE notes SET noteTitle = ? AND noteContent = ? WHERE noteId = ?");
+            PreparedStatement ps = c.prepareStatement("UPDATE notes SET noteTitle = ?, noteContent = ? WHERE noteId = ?");
             ps.setString(1, title);
             ps.setString(2, content);
             ps.setInt(3, noteId);

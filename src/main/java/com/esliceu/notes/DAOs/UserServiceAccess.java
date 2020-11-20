@@ -42,6 +42,8 @@ public class UserServiceAccess implements UserDAO {
             }
 
             ps.close();
+            rs.close();
+            Database.closeConnection();
 
         }catch (Exception e) {
             return null;
@@ -71,6 +73,7 @@ public class UserServiceAccess implements UserDAO {
 
             ps.execute();
             ps.close();
+            Database.closeConnection();
             return true;
 
         }catch (Exception e){
@@ -122,6 +125,8 @@ public class UserServiceAccess implements UserDAO {
             }
 
             ps.close();
+            rs.close();
+            Database.closeConnection();
         }catch (Exception e){
             return null;
         }
@@ -143,9 +148,13 @@ public class UserServiceAccess implements UserDAO {
 
             if (rs.getString("email") != null){
                 ps.close();
+                rs.close();
+                Database.closeConnection();
                 return true;
             } else {
                 ps.close();
+                rs.close();
+                Database.closeConnection();
                 return false;
             }
 
