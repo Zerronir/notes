@@ -9,6 +9,7 @@ import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,6 +62,8 @@ public class NotesServiceAccess implements NoteDAO {
             }
 
             ps.close();
+            rs.close();
+            Database.closeConnection();
 
         }catch (Exception e){
             return null;
@@ -82,7 +85,7 @@ public class NotesServiceAccess implements NoteDAO {
             ps.setString(3, content);
             ps.execute();
             ps.close();
-
+            Database.closeConnection();
             return true;
         }catch (Exception e){
             return false;
@@ -102,6 +105,7 @@ public class NotesServiceAccess implements NoteDAO {
             ps.setInt(3, noteId);
             ps.executeUpdate();
             ps.close();
+            Database.closeConnection();
             return true;
         }catch (Exception e){
             return false;
@@ -119,7 +123,7 @@ public class NotesServiceAccess implements NoteDAO {
             ps.setInt(1, noteId);
             ps.execute();
             ps.close();
-
+            Database.closeConnection();
             return true;
         }catch (Exception e) {
             return false;
@@ -157,6 +161,7 @@ public class NotesServiceAccess implements NoteDAO {
             }
 
             ps.close();
+            Database.closeConnection();
 
         }catch (Exception e){
             return null;
@@ -177,6 +182,7 @@ public class NotesServiceAccess implements NoteDAO {
             ps.setInt(3, userId);
             ps.execute();
             ps.close();
+            Database.closeConnection();
 
             return true;
         }catch (Exception e) {
@@ -196,6 +202,7 @@ public class NotesServiceAccess implements NoteDAO {
             ps.setInt(2, userId);
             ps.execute();
             ps.close();
+            Database.closeConnection();
 
             return true;
         }catch (Exception e){
@@ -222,6 +229,7 @@ public class NotesServiceAccess implements NoteDAO {
             );
 
             ps.close();
+            Database.closeConnection();
 
             return note;
 
@@ -261,8 +269,9 @@ public class NotesServiceAccess implements NoteDAO {
                 ));
             }
 
-
-
+            ps.close();
+            rs.close();
+            Database.closeConnection();
 
         }catch (SQLException e) {
             return null;
@@ -298,6 +307,10 @@ public class NotesServiceAccess implements NoteDAO {
                 ));
             }
 
+            ps.close();
+            rs.close();
+            Database.closeConnection();
+
         }catch (SQLException e) {
             return null;
         }
@@ -322,6 +335,8 @@ public class NotesServiceAccess implements NoteDAO {
             nRows = rs.getInt(1);
 
             ps.close();
+            rs.close();
+            Database.closeConnection();
 
         }catch (Exception e) {
             e.getCause();
@@ -346,6 +361,8 @@ public class NotesServiceAccess implements NoteDAO {
 
             nRows = rs.getInt(1);
             ps.close();
+            rs.close();
+            Database.closeConnection();
 
         }catch (Exception e) {
             e.getCause();
@@ -371,6 +388,9 @@ public class NotesServiceAccess implements NoteDAO {
             // Retornam el número de notes que ha trobat el cercador per texte per la seva paginació
             nRows = rs.getInt(1);
             ps.close();
+            rs.close();
+            Database.closeConnection();
+
         }catch (Exception e){
             e.getCause();
         }
@@ -393,6 +413,8 @@ public class NotesServiceAccess implements NoteDAO {
 
             nRows = rs.getInt(1);
             ps.close();
+            rs.close();
+            Database.closeConnection();
 
         }catch (Exception e){
             e.getCause();

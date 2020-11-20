@@ -2,6 +2,7 @@ package com.esliceu.notes.DAOs;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Database {
     private static Connection connection;
@@ -27,4 +28,10 @@ public class Database {
 
         return null;
     }
+
+    public static void closeConnection() throws SQLException {
+        connection.close();
+        connection = null;
+    }
+
 }
