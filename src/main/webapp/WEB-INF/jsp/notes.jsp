@@ -118,12 +118,41 @@
     </article>
 
     <div class="container">
+        <form action="/deleteMultipleNotes" method="post">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteMultiple">
+                Eliminar notes seleccionades
+            </button>
         <div class="d-flex flex-wrap justify-content-between">
-            <form action="/deleteMultipleNotes" method="post">
+
+
+
 
                 <c:forEach var="c" items="${notes}">
 
-                    <!-- Modal -->
+
+                    <!-- Modal para eliminar multiples notas -->
+                    <div class="modal fade" id="deleteMultiple" tabindex="-1" role="dialog" aria-labelledby="deleteMultiple" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="multipleDelete">De veres vols eliminar les notes?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Aquesta acció eliminará les notes de manera definitiva, estás segur/a?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No, la veritat es que no</button>
+                                    <button type="submit" class="btn btn-danger">Elimina les notes </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Modal para eliminación simple -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -146,6 +175,7 @@
 
 
                     <div class="card mt-3 mb-3" style="width: 25rem;">
+                        <input type="checkbox" name="notesToDelete[]" value="${c.getNoteId()}">
                         <div class="card-body">
                             <h5 class="card-title">${c.getTitle()}</h5>
                             <p class="card-text">${c.getContent()}</p>
@@ -181,9 +211,8 @@
                     </div>
                 </c:forEach>
 
-            </form>
-
         </div>
+        </form>
 
         <c:if test="${not empty notes}">
             <nav aria-label="Paginació de notes" class="d-flex justify-content-center">
